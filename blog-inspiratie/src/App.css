@@ -625,19 +625,6 @@ button:hover {
   border-radius: 5px;
 }
 
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
 
 /* Listă ordonată pentru informațiile personale */
 .personal-info ul {
