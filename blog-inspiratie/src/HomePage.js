@@ -15,7 +15,7 @@ const HomePage = () => {
       {/* Conținut principal */}
       <div className="content">
         <h2>Hi, Karolina</h2>
-        <p>Email: karolina@gmail.com</p>
+        <p>Email: riaboconi.k@gmail.com</p>
 
         {/* Opțiunea de abonare */}
         <div className="subscription">
@@ -27,8 +27,8 @@ const HomePage = () => {
         {/* Secțiunea de review */}
         <div className="reviews">
           <h3>Review-urile tale</h3>
-          <p>⭐ ⭐ ⭐ ⭐ ✩ - Super!</p>
-          <p>⭐ ⭐ ⭐ ✩ ✩ - E ok...</p>
+          <p>⭐ ⭐ ⭐ ⭐  - Super!</p>
+          <p>⭐ ⭐ ⭐  - E ok...</p>
         </div>
 
         {/* Informații personale */}
@@ -36,11 +36,11 @@ const HomePage = () => {
           <h3>Datele tale</h3>
           <ul>
             <li>Prenume: Karolina</li>
-            <li>Nume: Doe</li>
-            <li>Data nașterii: 01.01.2000</li>
+            <li>Nume: Riabokon</li>
+            <li>Data nașterii: 29.04.2005</li>
             <li>Gen: Feminin</li>
-            <li>Email: karolina@gmail.com</li>
-            <li>Parolă: ******</li>
+            <li>Email: riaboconi.k@gmail.com</li>
+            <li>Parolă: **********</li>
           </ul>
         </div>
       </div>
