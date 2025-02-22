@@ -1,49 +1,52 @@
-import React, { useState } from 'react';
-import "./App.css";
+import React, { useState } from "react";
+import { login } from './auth';  // Importă funcția de login din auth.js
+import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Iconițe pentru ochi
 
-
-
-const RegisterPage = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
-  const [parola, setParola] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("User Logged In:", { email, parola });
+    setError(""); // Resetăm erorile
+    try {
+      await login(email, password);  // Apelăm funcția de login
+      navigate("/home");  // Redirecționează utilizatorul
+    } catch (error) {
+      console.log(error.code);
+      setError(error.message);  // Afișăm eroarea
+    }
   };
 
   return (
     <div className="container">
       <div className="register-box">
         <h2>Log In</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-           
-          </div>
-         
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
             <input
               type="email"
-              id="email"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="form-group password-group">
-            <label htmlFor="parola">Parola:</label>
             <div className="password-container">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="parola"
-              value={parola}
-              onChange={(e) => setParola(e.target.value)}
-              required
-            />
-            <button
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Parola"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
                 type="button"
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
@@ -51,13 +54,15 @@ const RegisterPage = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-          </div>
-          <button type="submit">Sign In</button>
+            {error && <p>{error}</p>}
+            </div>
+            <button type="submit">Log In</button>
+         
         </form>
         <div className="extra-links">
           <div className="line"></div>
           <div className="account-options">
-          <p>
+            <p>
               <a href="/register">Create Account</a> | <a href="/forgot-password">Forgot password?</a>
             </p>
           </div>
@@ -67,5 +72,4 @@ const RegisterPage = () => {
   );
 };
 
-
-export default RegisterPage;
+export default LoginPage;

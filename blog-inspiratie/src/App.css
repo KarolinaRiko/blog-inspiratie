@@ -453,6 +453,7 @@ h2 {
   text-transform: uppercase !important;
   font-family: 'Baskerville Old Face', sans-serif !important; /* Schimbă fontul */
   font-size: 15px;
+  
 }
 
 /* Etichetele */
@@ -476,6 +477,7 @@ h2 {
   border-color: #8d0c84;
   outline: none;
 }
+
 /* Container pentru parola (iconiță ochi) */
 .password-container {
   position: relative;
@@ -488,7 +490,6 @@ h2 {
 
 .password-container input {
   width: 100%;
-  padding: 10px 45px 10px 15px;
 }
 
 .toggle-password {
@@ -524,11 +525,15 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  
 }
 
 button:hover {
   background-color:  #8d0c849c;
+  
 }
+
+
 .extra-links {
   margin-top: 20px;
   text-align: center;
@@ -580,7 +585,7 @@ button:hover {
   display: flex;
   justify-content: center;
   gap: 20px;
-  background-color: #282c34;
+  background-color: #8d0c84d2;
   padding: 10px;
   border-radius: 5px;
 }
@@ -594,7 +599,7 @@ button:hover {
 }
 
 .navbar a.active, .navbar a:hover {
-  background-color: #007bff;
+  background-color: #f310e44a;
 }
 
 /* Stil pentru conținut */
@@ -639,5 +644,14 @@ button:hover {
 .personal-info ul li:last-child {
   border-bottom: none;
 }
+
+.log-out {
+  color: #f310e44a; /* Culoare roșie pentru text */
+  font-size: 17px; /* Dimensiunea textului */
+  font-family: Arial, sans-serif;
+  text-decoration: none; /* Fără subliniere */
+  cursor: pointer; /* Cursore pointer pentru interactivitate */
+}
+
 
 
