@@ -1,55 +1,43 @@
 import { db } from "./firebase"; // Asigură-te că ai configurat corect Firebase
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
-// Adaugă o postare nouă
-export const addPost = async (title, content, userId) => {
+export const addPost = async (title, content) => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error("Utilizatorul nu este autentificat!");
+    return;
+  }
+
   try {
-    // Adăugăm postarea în colecția "posts"
     await addDoc(collection(db, "posts"), {
       title,
       content,
-      userId,
-      createdAt: new Date(), // Data creării postării
+      userId: user.uid, // ID-ul utilizatorului
+      createdAt: new Date(),
     });
     console.log("Post added successfully!");
   } catch (error) {
-    console.error("Error adding post:", error.message); // Detalii despre eroare
+    console.error("Error adding post:", error.message);
   }
 };
 
-// Obține toate postările din Firestore
-export const getPosts = async () => {
-  try {
-    const querySnapshot = await getDocs(collection(db, "posts")); // Obținem toate postările
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Returnează postările
-  } catch (error) {
-    console.error("Error getting posts:", error.message); // Detalii despre eroare
+export const addComment = async (postId, text) => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error("Utilizatorul nu este autentificat!");
+    return;
   }
-};
 
-// Adaugă un comentariu la o postare existentă
-export const addComment = async (postId, userId, text) => {
   try {
-    // Adăugăm comentariul în colecția "comments"
     await addDoc(collection(db, "comments"), {
       postId,
-      userId,
+      userId: user.uid, // ID-ul utilizatorului
       text,
-      createdAt: new Date(), // Data creării comentariului
+      createdAt: new Date(),
     });
     console.log("Comment added successfully!");
   } catch (error) {
-    console.error("Error adding comment:", error.message); // Detalii despre eroare
+    console.error("Error adding comment:", error.message);
   }
 };
 
-// Obține toate comentariile pentru o postare
-export const getComments = async (postId) => {
-  try {
-    const q = query(collection(db, "comments"), where("postId", "==", postId)); // Filtrăm comentariile pe baza postId
-    const querySnapshot = await getDocs(q); // Obținem comentariile pentru postarea specificată
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Returnează comentariile
-  } catch (error) {
-    console.error("Error getting comments:", error.message); // Detalii despre eroare
-  }
-};

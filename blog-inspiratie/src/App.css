@@ -43,30 +43,69 @@
   display: flex;
   position: absolute;
   right: 10px; /* Mută iconițele cât mai în dreapta */
-  display: flex;
   gap: 10px;
   top: 10px;
+  
 }
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .search-input {
   display: inline-block;
   padding: 5px 8px;
   font-size: 14px;
   border-radius: 25px;
   border: 1px solid #661768;
-  width: 120px;
-  transition: width 0.3s ease;
+  width: 120px; /* Lățimea câmpului de căutare */
   height: 14px;
 }
 
 .search-input:focus {
   border-color: #85117f;
   outline: none;
+  width: 120px; /* Menține lățimea constantă */
+  padding: 5px 8px; /* Fără tranziții de padding */
+  border-radius: 25px; /* Menține forma constantă */
 }
 
-.search-input::placeholder {
-  color: #7a7878;
+.results-list {
+  position: absolute;
+  top: 35px; /* Poziționează sub câmpul de căutare */
+  left: 0;
+  width: 200px; /* Mărește lățimea pentru a fi mai larg */
+  font-family: 'Baskerville Old Face', sans-serif !important; /* Schimbă fontul */
+  box-shadow: 0px 4px 8px rgba(104, 16, 89, 0.2);
+  background-color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 2;
+  font-weight:  600;
+  letter-spacing: 1px; /* Distanța între litere */
+  font-size: 15px !important;
 }
 
+/* Stiluri pentru itemii de rezultat */
+.result-item {
+  padding: 5px;
+}
+
+.result-item:hover {
+  background-color: rgba(131, 19, 127, 0.411);
+}
+
+.no-results {
+  padding: 10px;
+  color:  #690063;
+}
+
+/* Stiluri pentru iconiță */
 .icon {
   font-size: 20px;
   cursor: pointer;
@@ -76,7 +115,6 @@
 .icon:hover {
   color: #85117f;
 }
-
 .top-header .icon {
   font-size: 25px;
   cursor: pointer;
@@ -170,7 +208,7 @@ li {
   top: 120%;
   left: 0;
   background-color: rgb(255, 255, 255);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 8px rgba(104, 16, 89, 0.2);
   width: 180px; /* Mai îngust pentru un aspect compact */
   padding: 5px 0; /* Reducem padding-ul vertical */
   z-index: 1000;
@@ -388,7 +426,7 @@ li:focus-within .dropdown-menu {
 .dropdown {   
   pointer-events: auto;
   position: absolute;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 8px rgba(122, 20, 105, 0.2);
   right: 0;
   z-index: 1000;
   top: 30px;
@@ -648,10 +686,25 @@ button:hover {
 .log-out {
   color: #f310e44a; /* Culoare roșie pentru text */
   font-size: 17px; /* Dimensiunea textului */
-  font-family: Arial, sans-serif;
   text-decoration: none; /* Fără subliniere */
   cursor: pointer; /* Cursore pointer pentru interactivitate */
+  letter-spacing: -0.5px;
 }
+.log-out-dropdown {
+  font-size: 16px; /* Dimensiunea textului */
+  text-decoration: none; /* Fără subliniere */
+  cursor: pointer; /* Cursore pointer pentru interactivitate */
+  border: none; /* Asigură-te că nu are border */
+  background-color: transparent;
+  font-family: 'Baskerville Old Face', sans-serif !important; /* Schimbă fontul */
+  letter-spacing: 1px; /* Distanța între litere */
+}
+
+
+
+
+
+
 
 
 

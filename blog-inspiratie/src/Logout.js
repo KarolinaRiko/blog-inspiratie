@@ -3,7 +3,7 @@ import React from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from './auth';
 
-const Logout = () => {
+const Logout = ({ className }) => {
   const handleLogout = () => {
     signOut(auth).then(() => {
       console.log('Utilizatorul s-a deconectat!');
@@ -13,7 +13,8 @@ const Logout = () => {
   };
 
   return (
-    <a className="log-out" onClick={handleLogout}>Log Out</a>
+    <a className={className} onClick={handleLogout}>Log out</a>
+    
   );
 };
 

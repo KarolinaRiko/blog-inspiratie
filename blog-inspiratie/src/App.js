@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import { FaSearch, FaUser } from 'react-icons/fa';
 import { onAuthStateChanged } from "firebase/auth";
@@ -6,8 +6,8 @@ import { auth } from './auth';
 import LoginPage from './LoginPage';
 import RegisterPage from "./RegisterPage";
 import AccountPage from "./AccountPage";
-import Logout from "./Logout";
 
+import SearchResults from './components/SearchResults';
 
 import About from './pages/About';
 import Blog from './pages/Blog.js';
@@ -31,6 +31,7 @@ import SecreteGym from './pages/fitness/secrete-gym.js';
 import Yoga from './pages/mindfulness/yoga.js';
 import Meditatie from './pages/mindfulness/meditatie.js';
 import Aromoterapie from './pages/mindfulness/aromoterapie.js';
+import Logout from './Logout';
 
 function App() {
   const [showBanner, setShowBanner] = useState(true);
@@ -38,8 +39,55 @@ function App() {
   const [userDropdown, setUserDropdown] = useState(false);
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
- 
+  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [showResults, setShowResults] = useState(false); 
+  const searchContainerRef = useRef(null);
+  
 
+  // Simularea unor articole
+  const booksArticles = [
+    { title: "Cartea Vieții", content: "Aceasta este o carte minunată despre viață." },
+    { title: "Secretele minții", content: "Descoperă cum să îți antrenezi mintea." },
+  ];
+  const recipesArticles = [
+    { title: "Rețeta de Pancakes", content: "O rețetă delicioasă pentru dimineți perfecte." },
+  ];
+  const fitnessArticles = [
+    { title: "Exerciții pentru acasă", content: "Cum să te antrenezi eficient fără echipament." },
+  ];
+  const mindfulnessArticles = [
+    { title: "Meditația zilnică", content: "Beneficiile meditației pentru o minte liniștită." },
+  ];
+
+  useEffect(() => {
+    if (searchQuery) {
+      const allArticles = [...booksArticles, ...recipesArticles, ...fitnessArticles, ...mindfulnessArticles];
+      const filtered = allArticles.filter((article) =>
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.content.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredArticles(filtered);
+      setShowResults(true);  // Afișăm rezultatele când există căutare
+    } else {
+      setFilteredArticles([]);
+      setShowResults(false);  // Nu afișăm rezultatele când nu există căutare
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setShowResults(false);  // Ascundem rezultatele când dăm click în afară
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+ 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowBanner(false);
@@ -58,7 +106,7 @@ function App() {
 
   const handleLogout = () => {
     auth.signOut().then(() => {
-      
+      setUser(null); // Resetăm user-ul când se deconectează
     }).catch((error) => {
       console.error("Error at logout:", error);
     });
@@ -97,17 +145,28 @@ function App() {
             </h1>
             <p>fitness. books. food. travel</p>
           </div>
-          <div className="right">
-            <FaSearch className="icon" />
-
-            {/* Câmpul de căutare va fi mereu vizibil */}
-            <input
-              type="text"
-              placeholder="Caută..."
-              className="search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} // actualizează valoarea la tastare
-            />
+          <div className="right" ref={searchContainerRef}>
+             <FaSearch className="icon" />
+      <input
+        type="text"
+        placeholder="Caută..."
+        className="search-input"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+         {showResults && searchQuery && (
+        <ul className="results-list">
+          {filteredArticles.length > 0 ? (
+            filteredArticles.map((article, index) => (
+              <li key={index} className="result-item">
+                {article.title}
+              </li>
+            ))
+          ) : (
+            <li className="no-results">Nicio potrivire găsită</li>
+          )}
+        </ul>
+      )}
             <div>
               <div 
                 onMouseEnter={handleMouseEnterUser} 
@@ -117,16 +176,24 @@ function App() {
                 <FaUser className="icon" />
               </div>
               {userDropdown && (
-                <div
-                  className="dropdown"
-                  onMouseEnter={() => setUserDropdown(true)} // Menține dropdown-ul deschis
-                  onMouseLeave={() => setUserDropdown(false)} // Ascunde dropdown-ul când părăsești
-                >
-                  <NavLink to="/login">Autentificare</NavLink>
-                  <NavLink to="/register">Inregistrare</NavLink>
-                </div>
-                
-              )}
+          <div
+            className="dropdown"
+            onMouseEnter={() => setUserDropdown(true)}
+            onMouseLeave={() => setUserDropdown(false)}
+          >
+            {!user ? (
+              <>
+                <NavLink to="/login">Autentificare</NavLink>
+                <NavLink to="/register">Inregistrare</NavLink>
+              </>
+            ) : (
+              <>
+                <NavLink to="/home">Contul tau</NavLink>
+                <Logout className="log-out-dropdown" />
+              </>
+            )}
+          </div>
+        )}
             </div>
           </div>
         </div>
@@ -215,8 +282,10 @@ function App() {
           <Route path="/pages/mindfulness/meditatie" element={<Meditatie />} />
           <Route path="/pages/mindfulness/yoga" element={<Yoga />} />
           <Route path="/pages/mindfulness/aromoterapie" element={<Aromoterapie />} />
+          <Route path="/search" element={<SearchResults filteredArticles={filteredArticles} searchQuery={searchQuery} />} />
         </Routes>
       </div>
+      
       </Router>
   );
 }
