@@ -2,6 +2,7 @@ import { initializeApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 
+
 // Configurația Firebase (folosește valorile tale)
 const firebaseConfig = {
   apiKey: "AIzaSyDjHOQySf5ZiBmYar1R_uG9vkgt-DWKk3c",
@@ -9,8 +10,7 @@ const firebaseConfig = {
   projectId: "blog-inspiratie",
   storageBucket: "blog-inspiratie.firebasestorage.app",
   messagingSenderId: "819633241510",
-  appId: "1:819633241510:web:d828a1d6c815bb1c1ca367",
-  measurementId: "G-G3YPEE3FZ0"
+  appId: "1:819633241510:web:d828a1d6c815bb1c1ca367"
 };
 
 

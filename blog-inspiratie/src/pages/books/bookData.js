@@ -3,7 +3,7 @@ const booksData = {
   "dezvoltare-personala": [
     { 
       title: "Atomic Habits", 
-      subtitle: "Schimbari mici, rezultate remarcabile",
+      subtitle: "Schimbari mici, rezultate remarcabile", 
       slug: "atomic-habits",
       image: "https://cdn.dc5.ro/img-prod/320312020-0.gif",
       details: {
@@ -59,7 +59,7 @@ const booksData = {
         language: "Română",
         publicationDate: "2019",
         publisher: "Curtea Veche Publishing",
-        author: "Gary Chapman",
+        author: "Gary Chapman", 
         pages: 208,
         cumpara: "https://carturesti.ro/carte/cele-cinci-limbaje-ale-iubirii-350600620?p=2&t=c_quick-search&s=cinci"
        }
@@ -72,7 +72,7 @@ const booksData = {
     { 
       title: "Fluturi", 
       subtitle: "Volumul 1",
-      slug: "fluturi-i",
+      slug: "fluturi.-volumul-1",
       image: "https://cdn.dc5.ro/img-prod/2917639233-0.png",
       details: {
         categories: "Romantism",
@@ -100,7 +100,7 @@ const booksData = {
        }
     },
     { 
-      title: "Totul-incepe-cu-noi", 
+      title: "Totul incepe cu noi", 
       subtitle: "Orice sfarsit are inceput",
       slug: "totul-incepe-cu-noi",
       image: "https://assets.bkz.ro/upload/produse/ZKJZMJDWH/totul-incepe-cu-noi-bg3.webp",
@@ -117,7 +117,7 @@ const booksData = {
     { 
       title: "Fluturi", 
       subtitle: "Volumul 2",
-      slug: "fluturi-ii",
+      slug: "fluturi.-volumul-2",
       image: "https://cdn.dc5.ro/img-prod/2917639236-0.png",
       details: {
         categories: "Romantism",
@@ -147,7 +147,7 @@ const booksData = {
     { 
       title: "Fluturi", 
       subtitle: "Volumul 3",
-      slug: "fluturi-iii",
+      slug: "fluturi.-volumul-3",
       image: "https://cdn.dc5.ro/img-prod/2917639239-0.png",
       details: {
         categories: "Romantism",
@@ -177,7 +177,7 @@ const booksData = {
     { 
       title: "Fluturi", 
       subtitle: "Volumul 4",
-      slug: "fluturi-iv",
+      slug: "fluturi.-volumul-4",
       image: "https://cdn.dc5.ro/img-prod/2446624176-0.png",
       details: {
         categories: "Romantism",
@@ -255,4 +255,4 @@ const booksData = {
 };
   
   export default booksData;
-  
+   

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import "./App.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Iconițe pentru ochi
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './firebase'; // Asigură-te că importi corect obiectul `auth`
+import { auth, db } from './firebase'; // Asigură-te că importi corect obiectul `auth`
 import { useNavigate } from 'react-router-dom'; // Pentru a naviga după înregistrare
 import { setDoc, doc } from 'firebase/firestore'; // Pentru a salva datele suplimentare în Firestore
-import { db } from './firebase'; // Importă obiectul db pentru Firestore
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -26,25 +24,37 @@ const RegisterPage = () => {
       // După ce utilizatorul a fost creat, salvează și restul informațiilor în Firestore
       const user = userCredential.user;
       await setDoc(doc(db, "users", user.uid), {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      birthday: "", // Adaugă câmpuri suplimentare dacă ai nevoie
-      gender: "",
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        birthday: "", // Adaugă câmpuri suplimentare dacă ai nevoie
+        gender: "",
       });
 
       navigate('/login'); // După înregistrare, redirecționează la login
     } catch (error) {
-      setError(error.message); // Afișează eroarea dacă ceva nu merge bine
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          setError('Acest email este deja utilizat, incercati alta.');
+          break;
+        case 'auth/invalid-email':
+          setError('Adresa de email nu este validă.');
+          break;
+        case 'auth/weak-password':
+          setError('Parola este prea slabă. Alege una mai complexă.');
+          break;
+        default:
+          setError('A apărut o eroare. Te rugăm să încerci din nou.');
+      }
     }
   };
 
   return (
     <div className="container">
       <div className="register-box">
-        <h2>Create Account</h2>
+        <h2 className={error ? "error-heading" : ""}>Create Account</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
-          {error && <p className="error-message">{error}</p>}
           <div className="form-group">
             <input
               type="text"
@@ -92,7 +102,6 @@ const RegisterPage = () => {
           </div>
           <button type="submit">Înregistrează-te</button>
         </form>
-        {error && <p>{error}</p>}
         <div className="extra-links">
           <div className="line"></div>
           <div className="account-options">

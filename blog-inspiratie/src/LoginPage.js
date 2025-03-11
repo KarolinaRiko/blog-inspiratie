@@ -12,21 +12,38 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Resetăm erorile
+    setError(""); 
     try {
-      await login(email, password);  // Apelăm funcția de login
-      navigate("/home");  // Redirecționează utilizatorul
+      await login(email, password); 
+      navigate("/home");  
     } catch (error) {
-      console.log(error.code);
-      setError(error.message);  // Afișăm eroarea
+      switch (error.code) {
+        case 'auth/invalid-credential':
+          setError('Te rog verifică email-ul și parola.');
+          break;
+        case 'auth/user-not-found':
+          setError('Nu am găsit un cont cu acest email.');
+          break;
+        case 'auth/wrong-password':
+          setError('Parola introdusă este greșită. Încearcă din nou.');
+          break;
+        case 'auth/too-many-requests':
+          setError('Ai încercat prea multe logări eșuate. Te rugăm să încerci din nou după câteva minute.');
+          break;
+        case 'auth/network-request-failed':
+          setError('Conexiune eșuată. Verifică-ți conexiunea la internet.');
+          break;
+        default:
+          setError('A apărut o eroare. Te rugăm să încerci din nou.');
+      }
     }
-  };
+  }; 
 
   return (
     <div className="container">
       <div className="register-box">
-        <h2>Log In</h2>
-        {error && <p className="error-message">{error}</p>}
+        <h2 className={error ? "error-heading" : ""}>Log In</h2>
+        {error && <p className="error-message">{error}</p>} 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
@@ -46,7 +63,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <button
+              <button 
                 type="button"
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
@@ -54,11 +71,12 @@ const LoginPage = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            {error && <p>{error}</p>}
+            
             </div>
             <button type="submit">Log In</button>
          
         </form>
+        
         <div className="extra-links">
           <div className="line"></div>
           <div className="account-options">

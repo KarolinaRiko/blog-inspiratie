@@ -47,63 +47,67 @@
   top: 10px;
   
 }
-.search-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
 .search-input {
   display: inline-block;
   padding: 5px 8px;
   font-size: 14px;
   border-radius: 25px;
   border: 1px solid #661768;
-  width: 120px; /* Lățimea câmpului de căutare */
+  width: 120px;
   height: 14px;
 }
 
 .search-input:focus {
   border-color: #85117f;
   outline: none;
-  width: 120px; /* Menține lățimea constantă */
-  padding: 5px 8px; /* Fără tranziții de padding */
-  border-radius: 25px; /* Menține forma constantă */
+  width: 120px;
+  padding: 5px 8px;
+  border-radius: 25px;
 }
 
 .results-list {
+  display: block;
   position: absolute;
-  top: 35px; /* Poziționează sub câmpul de căutare */
+  top: 35px;
   left: 0;
-  width: 200px; /* Mărește lățimea pentru a fi mai larg */
-  font-family: 'Baskerville Old Face', sans-serif !important; /* Schimbă fontul */
+  width: 200px;
+  font-family: 'Baskerville Old Face', sans-serif !important;
   box-shadow: 0px 4px 8px rgba(104, 16, 89, 0.2);
   background-color: white;
   list-style-type: none;
   padding: 0;
   margin: 0;
-  max-height: 200px;
-  overflow-y: auto;
+  max-height: none;
+  overflow-y: hidden;
   z-index: 2;
-  font-weight:  600;
-  letter-spacing: 1px; /* Distanța între litere */
+  font-weight: 600;
+  letter-spacing: 1px;
   font-size: 15px !important;
 }
 
-/* Stiluri pentru itemii de rezultat */
 .result-item {
   padding: 5px;
+  border-bottom: none;
 }
 
 .result-item:hover {
   background-color: rgba(131, 19, 127, 0.411);
 }
 
+.result-link {
+  text-decoration: none;
+  color: #661768;
+}
+
+.result-link:hover {
+  color: #85117f;
+}
+
 .no-results {
   padding: 10px;
-  color:  #690063;
+  color: #690063;
 }
+
 
 /* Stiluri pentru iconiță */
 .icon {
@@ -222,11 +226,10 @@ li:focus-within .dropdown-menu {
 }
 
 .dropdown-menu li {
-  padding: 5px 10px; /* Reducem padding-ul intern */
   text-align: left;
   width: 100%;
-  margin: 0; /* Elimină spațiul dintre elemente */
-  padding: 0; /* Elimină orice padding */
+  margin: 0;
+  padding: 0;
 }
 
 .dropdown-menu li a {
@@ -252,18 +255,6 @@ li:focus-within .dropdown-menu {
 /* Afișează meniul la hover */
 .main-header nav ul li:hover .dropdown-menu {
   display: block;
-}
-/* Stiluri pentru pagina About */
-.plasture {
-  width: 250px;
-  height: auto;
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-10deg);
-  opacity: 0.8;
-  filter: hue-rotate(270deg) brightness(0.8);
-  rotate: 10deg;
 }
 
 .about-container {
@@ -323,6 +314,7 @@ li:focus-within .dropdown-menu {
   font-size: 1.8rem;
   color: #830d59;
   margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .about-content ul {
@@ -354,42 +346,13 @@ li:focus-within .dropdown-menu {
   color: #555;
   line-height: 1.6;
 }
-.book-category {
-  padding: 20px;
-}
-.book-category h1 {
-  margin: -2px;
-  text-align: center; /* Centrarea textului pe orizontală */
-  font-family: 'aglet-slab, Montserrat, Trebuchet, sans-serif'; 
-  color: rgb(49, 43, 49); /* Schimbă culoarea textului la alb */
-  font-size: 50px; /* Dimensiune font diferită */
-  
-}
-
-.books-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.book-card {
-  display: flex;
-  gap: 20px;
-  padding: 25px;
-  width: 100%;
-  max-width: 2000px;
-  margin-bottom: -10px; /* Adaugă un mic spațiu între carduri */
-  background-color: #f5f3f5;
-  
-}
-
 .book-image {
   width: 250px;
   height: auto;
+  border-radius: 5px;
 }
 .book-info {
   flex: 1;
-  margin-top: -20px;
 }
 
 .book-title {
@@ -403,11 +366,12 @@ li:focus-within .dropdown-menu {
 .book-title:hover {
   color: #690f6a;
 }
+
 .book-subtitle {
-  font-size: 20px;
-  font-family: 'Brush Script MT', sans-serif; /* Schimbă fontul dacă dorești alt stil */
-  font-weight: bold; /* Face subtitlul mai îndrăzneț */
-  margin-top: -25px;
+  font-size: 18px;
+  font-family: 'Brush Script MT', sans-serif;
+  font-weight: bold;
+  margin-top: -10px;
 }
 
 .book-details p {
@@ -417,6 +381,7 @@ li:focus-within .dropdown-menu {
   display: flex;
   gap: 5px;
 }
+
 .buy-link {
   color: #690f6a; /* Culoare mov pentru link */
   font-size: 16px;
@@ -449,9 +414,7 @@ li:focus-within .dropdown-menu {
 }
 
 .dropdown a:hover {
-  
   background-color: rgba(131, 19, 127, 0.411); /* Fundal doar fără linie jos */
-  
 }
 /* Centrare pe pagină */
 .container {
@@ -467,13 +430,15 @@ li:focus-within .dropdown-menu {
   background: white;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0px 8px rgba(141, 12, 132, 0.5);
   width: 350px;
   text-align: center;
   margin-top: 50px;
 }
+.error-heading {
+  margin-bottom: 0px !important;
+}
 
-/* Titlu */
 h2 {
   font-size: 25px;
   margin-top: 2px !important;
@@ -505,7 +470,8 @@ h2 {
 .form-group input {
   width: 93.5%;
   padding: 10px;
-  border: 1px solid #720e6f;
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5);
+  border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 16px;
   transition: border-color 0.3s;
@@ -523,7 +489,6 @@ h2 {
   align-items: center;
   width: 100%;
   max-width: 700px;
-  
 }
 
 .password-container input {
@@ -612,13 +577,12 @@ button:hover {
   max-width: 800px;
   margin: 20px auto;
   font-family: Arial, sans-serif;
-  background: #f9f9f9;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 12px rgba(141, 12, 132, 0.5); 
 }
 
-/* Stil pentru navbar */
 .navbar {
   display: flex;
   justify-content: center;
@@ -634,10 +598,11 @@ button:hover {
   padding: 8px 12px;
   border-radius: 4px;
   transition: 0.3s;
+  
 }
 
 .navbar a.active, .navbar a:hover {
-  background-color: #f310e44a;
+  background-color: #e682df35;
 }
 
 /* Stil pentru conținut */
@@ -683,6 +648,7 @@ button:hover {
   border-bottom: none;
 }
 
+
 .log-out {
   color: #f310e44a; /* Culoare roșie pentru text */
   font-size: 17px; /* Dimensiunea textului */
@@ -700,11 +666,1191 @@ button:hover {
   letter-spacing: 1px; /* Distanța între litere */
 }
 
+/* Stilizare pentru Settings */
+.settings-container {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px; /* Distanța între litere */
+}
+
+.settings-container h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.settings-form input[type="text"],
+.settings-form input[type="email"],
+.settings-form input[type="date"],
+.settings-form input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border 0.3s;
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5); /* Un efect ușor de umbră pentru focus */
+}
+
+.settings-form input[type="text"]:focus,
+.settings-form input[type="email"]:focus,
+.settings-form input[type="date"]:focus,
+.settings-form input[type="password"]:focus {
+  border-color: #8d0c84d2;
+  outline: none;
+}
 
 
+.settings-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #8d0c84d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.settings-form button:hover {
+  background-color: #911a89ac;
+}
+
+/* Stilizare pentru câmpul de selectare a genului */
+.settings-form select {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border 0.3s, box-shadow 0.3s;
+  background-color: #fff; /* Culoarea de fundal pentru dropdown */
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5); /* Un efect ușor de umbră pentru focus */
+}
+
+/* Când selectezi sau este în focus, schimbăm border-ul la culoarea dorită */
+.settings-form select:focus {
+  border-color: #8d0c84d2 !important;
+  outline: none;
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5); /* Un efect ușor de umbră pentru focus */
+}
+
+/* Când dropdown-ul este selectat, schimbăm culoarea */
+.settings-form select option {
+  background-color: #fff; /* Fundal alb pentru opțiuni */
+  color: #333; /* Textul opțiunilor */
+}
+
+.subscription-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(141, 12, 132, 0.5); 
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Stil pentru titlul secțiunii de abonare */
+.subscription-container h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Stil pentru inputul de email */
+.subscription-container input[type="email"] {
+  width: 100%;
+  max-width: 382px; /* Dimensiune mai mică pe orizontală */
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem; 
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5); 
+ 
+}
+.subscription-container input[type="email"]:focus {
+  border-color: #8d0c84;
+  outline: none;
+}
+
+/* Stil pentru butonul de abonare */
+.subscription-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #8d0c84d2; /* Culoarea dorită */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.subscription-container button:hover {
+  background-color: #8d0c84;
+}
+
+.subscription-container p {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+.forgot-password-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Stil pentru titlul secțiunii de Forgot Password */
+.forgot-password-container h2 {
+  font-size: 30px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Stil pentru descrierea din pagina Forgot Password */
+.forgot-password-container p {
+  font-size: 17px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Stil pentru inputul de email */
+.forgot-password-container input[type="email"] {
+  width: 100%;
+  max-width: 376px;
+  padding: 11px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.3);
+  transition: border-color 0.3s ease;
+}
+
+.forgot-password-container input[type="email"]:focus {
+  border-color: #8d0c84;
+  outline: none;
+}
+
+/* Stil pentru butonul de Trimite */
+.forgot-password-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #8d0c84d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.forgot-password-container button:hover {
+  background-color:  #8d0c849c;
+}
+
+/* Stil pentru mesajele de succes/error */
+.forgot-password-container .message {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Mesajul de succes (verde) */
+.forgot-password-container .message.success {
+  color: rgba(119, 22, 71, 0.668);
+}
+
+/* Mesajul de eroare */
+.forgot-password-container .message.error {
+  color: #f44336; /* Roșu pentru eroare */
+  font-size: 1rem;
+  margin-top: 10px;
+  font-weight: bold;
+}
 
 
+/* Stil pentru link-ul care duce înapoi la login (opțional) */
+.forgot-password-container a {
+  color: #8d0c84d2;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+
+.forgot-password-container a:hover {
+  text-decoration: underline;
+}
+/* Container pentru pagina de resetare a parolei */
+.reset-password-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Stil pentru titlu */
+.reset-password-container h2 {
+  font-size: 25px;
+  margin-top: 15px !important;
+  margin-bottom: 40px;
+  text-transform: uppercase !important;
+  color: black !important;
+  font-family: 'Baskerville Old Face', sans-serif !important; /* Schimbă fontul */
+  letter-spacing: 1px; /* Distanța între litere */
+}
 
 
+/* Input pentru noua parolă */
+.reset-password-container input[type="password"] {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 2px;
+  margin-left: auto; /* Centrarea pe orizontală */
+  margin-right: auto; /* Centrarea pe orizontală */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5);
+  outline: none; 
+}
+.passwords-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
 
+.reset-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input-group input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 2px;
+  margin-left: auto; /* Centrarea pe orizontală */
+  margin-right: auto; /* Centrarea pe orizontală */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5);
+  outline: none; 
+}
+.reset-password-container input[type="password"]:focus {
+  border: 1px solid #8d0c84; /* Bordura devine mov când inputul este selectat */
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5); /* Un efect subtil de umbră pentru a evidenția inputul */
+  outline: none; /* Elimină outline-ul implicit */
+}
+
+.input-group input:focus {
+  border: 1px solid #8d0c84; /* Bordura devine mov când inputul este selectat */
+  box-shadow: 0 0 5px rgba(141, 12, 132, 0.5); /* Efect de umbră */
+  outline: none;
+}
+
+.toggles-password {
+  position: absolute;
+  background: transparent !important; /* Fundal complet transparent */
+  border: none;
+  cursor: pointer;
+  color: #8d0c84; /* Mov */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; 
+  outline: none;
+  right: 19px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto; /* Se adaptează iconiței */
+  height: auto;
+}
+
+.toggles-password svg {
+  width: 20px; /* Mărimea mai mică a iconiței */
+  height: 20px; /* Mărimea mai mică a iconiței */
+  color: #8d0c84; /* Asigură că iconița e mov */
+}
+
+.toggles-password:hover svg {
+  color: #6a0d6297; /* Mov mai închis la hover */
+}
+
+.reset-button {
+  background-color: #8d0c84d2;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 96%;
+  margin-left: auto; 
+  margin-right: auto; 
+}
+
+.reset-button:hover {
+  background-color:  #8d0c849c;
+}
+
+/* Mesaje de eroare și succes */
+.reset-password-container .message {
+  font-size: 1rem;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.reset-password-container .message.success {
+  color: #4caf50; /* Verde pentru succes */
+}
+
+.reset-password-container .message.error {
+  color: #f44336; /* Roșu pentru eroare */
+}
+
+.reset-password-container a {
+  font-size: 0.9rem;
+  color: #8d0c84;
+  text-decoration: none;
+  margin-top: 15px;
+  display: block;
+}
+
+.recipe-details p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  gap: 5px;
+}
+.read-more-button {
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  bottom: 20px;
+  right: 2px;
+  width: auto; 
+  max-width: 120px; 
+  position: absolute;
+}
+
+.container-all {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: auto;
+  background-color: #f4f4f4;
+}
+
+.all-category {
+  padding: 20px;
+  text-align: center;
+}
+
+.all-category h1 {
+  margin: 0 auto;
+  color: rgb(79, 76, 79);
+  font-size: 50px;
+}
+
+.dashed-line {
+  border: none;
+  border-top: 1px dashed gray;
+  width: 700px;
+  margin-top: 5px;
+}
+
+.all-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+.all-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0px 12px rgba(141, 12, 132, 0.5);
+  margin-top: -15px;
+}
+
+.all-card {
+  display: flex;
+  gap: 20px;
+  padding: 25px;
+  width: 100%;
+  max-width: 2000px;
+  margin-bottom: -10px;
+  background-color: #ffffff;
+  border-bottom: 1px dashed #ddd;
+  position: relative;
+}
+
+.all-image {
+  width: 350px;
+  height: auto;
+  border-radius: 2px;
+}
+
+.all-info {
+  flex: 1;
+}
+
+.all-title {
+  color: #202020;
+  text-decoration: none;
+  font-size: 30px;
+  letter-spacing: 2px;
+}
+
+.all-title:hover {
+  color: #690f6a;
+}
+
+.all-subtitle {
+  font-size: 18px;
+  margin-top: -10px;
+}
+
+
+.blog-container {
+  padding: 25px; 
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.blog-category {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.blog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  letter-spacing: 1px;
+}
+
+.blog-header h2 {
+  font-size: 35px;
+  font-weight: bold;
+  color: #2d3748; 
+  flex-grow: 1;
+  text-align: center;
+}
+
+.see-all-container {
+  margin-left: auto;
+  text-align: right;
+  margin-bottom: 1px;
+  display: block;
+  align-self: center; /* Centrare verticală */
+  margin-top: 10px;
+
+}
+
+.see-all-container a {
+  color: #8d0c84;
+  text-decoration: none;
+  font-weight: 400;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.blog-subcategories {
+  display: flex;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.blog-subcategories a {
+  width: 1000px;
+  height: 150px; 
+  border-radius: 5px; 
+  background-size: cover;
+  color: #ffffff;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 25px;
+  gap: 15px;
+}
+
+.subcategory-link { 
+  width: 250px; 
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.subcategory-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.486); /* Strat semi-transparent */
+  z-index: 1; /* Fundalul rămâne dedesubt */
+}
+
+.subcategory-link span {
+  position: relative;
+  z-index: 2;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1.4rem;
+}
+
+.subcategory-link::before {
+  content: attr(data-category);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.6); /* Fundal pentru text */
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  color: white !important;
+  z-index: 2; /* Asigură că textul e deasupra overlay-ului */
+}
+
+.subcategory-link:hover::after {
+  background: rgba(128, 20, 83, 0.082); /* Întunecare mai puternică la hover */
+}
+
+.success-message,
+.error-message {
+  color: #000000 !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  text-align: center;
+}
+/*review*/
+.books-container {
+  width: 100%;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0px 12px rgba(141, 12, 132, 0.5);
+  margin-top: 5px;
+  display: block;
+}
+
+.book-rw-image {
+  float: left; 
+  max-width: 250px;
+  margin-right: 20px;
+  border-radius: 3px;
+}
+
+.book-rw-details {
+  display: block; 
+  clear: right;
+  border-radius: 3px;
+  margin: 0px 80px 15px 50px;
+}
+
+.book-rw-details h2 {
+  color: #333;
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+.book-rw-details p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.rating {
+  display: flex;
+  margin: 10px 0;
+}
+
+
+.book-review-container {
+  background: #7d146110;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.book-review-container h3 {
+  margin-top: 10px;
+  color: #333;
+}
+
+.book-review-container ul {
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.book-review-container ul li {
+  margin-bottom: 5px;
+}
+
+
+/* --- STILURI PENTRU TELEFOANE --- */
+@media (max-width: 768px) {
+  /* Ajustăm padding-ul pentru telefon */
+  .top-header {
+    padding: 5px 15px;
+  }
+
+  /* Reducem font-size-ul pentru titlu și subtitlu */
+  .top-header .left h1 {
+    font-size: 50px;
+  }
+
+  .top-header .left p {
+    font-size: 12px;
+  }
+
+  /* Ajustăm câmpul de căutare pentru a fi mai mic pe telefoane */
+  .search-input {
+    width: 100px;
+    font-size: 12px;
+  }
+
+  /* Mărim lățimea rezultatelor de căutare pentru a se potrivi pe ecrane mai mici */
+  .results-list {
+    width: 150px;
+    font-size: 12px;
+  }
+
+  /* Poziționăm iconițele mai jos pentru a evita suprapunerea pe telefoane */
+  .top-header .right {
+    position: static;
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  /* Ajustăm marginea de sus a secțiunii stângi */
+  .top-header .left {
+    padding-top: 0;
+  }
+
+  /* Reducem dimensiunea iconiței pentru telefon */
+  .top-header .icon {
+    font-size: 20px;
+  }
+  .main-header nav ul {
+    flex-direction: column; /* Pune meniul pe verticală pe mobil */
+    gap: 15px;
+  }
+
+  .main-header nav ul li a {
+    font-size: 14px; /* Ajustează mărimea fontului pentru mobil */
+  }
+
+  .dropdown-menu {
+    width: 100%; /* Lățime completă pentru meniul dropdown pe mobil */
+  }
+
+  .dropdown-menu li a {
+    font-size: 14px; /* Ajustează mărimea fontului pentru mobil */
+    padding: 10px 15px; /* Lărgește padding-ul pe mobil pentru accesibilitate */
+  }
+  .plasture {
+    width: 220px; /* Micșorăm plasturele pentru tablete */
+    top: -15px;
+  }
+
+  .about-container {
+    margin: 20px auto; /* Reducem marginea pentru a economisi spațiu */
+    padding: 15px; /* Micșorăm padding-ul */
+  }
+
+  .about-image {
+    width: 80%; /* Ajustăm imaginea să fie mai mică pe tablete */
+    margin: 20px auto; /* Adăugăm margine pentru un aspect uniform */
+  }
+
+  .about-title {
+    font-size: 2rem; /* Micșorăm dimensiunea titlului pentru tablete */
+  }
+
+  .about-header {
+    flex-direction: column; /* Aliniem imaginea și textul pe verticală */
+    gap: 20px; /* Reducem distanța dintre imagine și text */
+    text-align: center; /* Aliniem totul la centru */
+  }
+
+  .about-text {
+    font-size: 1.1rem; /* Micșorăm textul */
+  }
+
+  .about-content h2 {
+    font-size: 1.6rem; /* Micșorăm titlul din secțiunea content */
+  }
+
+  .about-content ul li {
+    font-size: 1rem; /* Reducem dimensiunea fontului pentru itemii din listă */
+  }
+
+  .about-content p {
+    font-size: 1rem; /* Micșorăm dimensiunea paragrafelor */
+  }
+  .book-category h1 {
+    font-size: 40px; /* Micșorăm dimensiunea titlului pentru tablete */
+  }
+
+  .books-container {
+    gap: 15px; /* Reducem spațierea dintre carduri */
+  }
+
+  .book-card {
+    flex-direction: column; /* Aranjăm cardurile pe verticală */
+    padding: 20px; /* Reducem paddingul cardului */
+  }
+
+  .book-image {
+    width: 100%; 
+    max-width: 250px; 
+  }
+
+  .book-title {
+    font-size: 35px; /* Micșorăm dimensiunea titlului pe tablete */
+  }
+
+  .book-subtitle {
+    font-size: 18px; /* Micșorăm dimensiunea subtitlului */
+  }
+
+  .book-details p {
+    font-size: 13px; /* Micșorăm dimensiunea textului din detalii */
+  }
+
+  .buy-link {
+    font-size: 15px; /* Micșorăm dimensiunea fontului pentru link */
+  }
+  .dropdown {
+    width: 100%; /* Ajustează lățimea dropdown-ului pe dispozitivele medii */
+    font-size: 16px;
+    right: auto;
+    left: 0;
+    top: 15px;
+  }
+
+  .dropdown a {
+    font-size: 16px;
+    padding-left: 10px;
+  }
+
+  .register-box {
+    width: 80%; /* Ajustează lățimea formularului */
+    padding: 25px;
+  }
+
+  h2 {
+    font-size: 24px; /* Ajustează fontul titlului */
+  }
+
+  .form-group {
+    font-size: 16px; /* Ajustează fontul etichetelor inputurilor */
+  }
+
+  .form-group input {
+    font-size: 16px; /* Ajustează fontul inputurilor */
+  }
+
+  button {
+    font-size: 16px; /* Ajustează dimensiunea butonului */
+    padding: 12px;
+  }
+
+  .password-container input {
+    font-size: 16px; /* Ajustează fontul pentru input-ul de parolă */
+  }
+
+  .extra-links {
+    font-size: 14px; /* Ajustează fontul pentru linkuri */
+  }
+  .account-options {
+    flex-direction: column; /* Aranjează link-urile și paragrafele pe verticală */
+    align-items: flex-start;
+  }
+
+  .account-options a {
+    margin: 5px 0; /* Micșorează spațiul dintre linkuri */
+  }
+
+  .home-container {
+    width: 100%; /* Adaptează lățimea containerului */
+    padding: 20px;
+  }
+
+  .navbar {
+    flex-direction: row; /* Aranjează navbar-ul pe orizontală */
+    gap: 15px; /* Micșorează spațiul între elementele navbar-ului */
+  }
+
+  .navbar a {
+    padding: 10px 15px; /* Ajustează padding-ul pentru butoanele navbar-ului */
+  }
+
+  .content h2 {
+    font-size: 22px; /* Micșorează fontul pentru titlu */
+  }
+
+  .subscription, .reviews, .personal-info {
+    padding: 12px;
+  }
+
+  .subscription input {
+    width: calc(100% - 80px); /* Ajustează lățimea input-ului */
+  }
+
+  .personal-info ul li {
+    font-size: 15px; /* Micșorează fontul listelor */
+  }
+
+  .log-out {
+    font-size: 16px; /* Micșorează dimensiunea textului pentru log-out */
+  }
+  .settings-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .settings-container h2 {
+    font-size: 20px;
+  }
+
+  .settings-form input[type="text"],
+  .settings-form input[type="email"],
+  .settings-form input[type="date"],
+  .settings-form input[type="password"],
+  .settings-form select {
+    font-size: 14px;
+  }
+
+  .settings-form button {
+    font-size: 14px;
+  }
+
+  .subscription-container {
+    margin-left: 20px;
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .subscription-container h3 {
+    font-size: 1.3rem;
+  }
+
+  .subscription-container input[type="email"] {
+    font-size: 0.9rem;
+  }
+
+  .subscription-container button {
+    font-size: 0.9rem;
+  }
+}
+
+/* --- STILURI PENTRU TELEFOANE MAI MICI --- */
+@media (max-width: 480px) {
+  .top-header .left h1 {
+    font-size: 40px;
+  }
+
+  .search-input {
+    width: 80px;
+    font-size: 12px;
+  }
+
+  .results-list {
+    width: 120px;
+    font-size: 12px;
+  }
+
+  .top-header .left p {
+    font-size: 10px;
+  }
+  .main-header nav ul {
+    flex-direction: column;
+    gap: 10px; /* Reducem spațierea dintre elemente */
+  }
+
+  .main-header nav ul li a {
+    font-size: 12px; /* Mărimile fonturilor devin mai mici pe dispozitive mici */
+    letter-spacing: 1px;
+    padding: 10px 0; /* Padding mai mare pentru a face elementele mai accesibile */
+  }
+
+  .dropdown-menu {
+    width: 100%; /* Dropdown-ul devine complet pe lățimea ecranului */
+  }
+
+  .dropdown-menu li a {
+    font-size: 12px;
+    padding: 8px 10px; /* Reducem padding-ul pentru a economisi spațiu */
+  }
+
+  /* Ajustează comportamentul hover pe mobil pentru a fi mai accesibil */
+  .dropdown-menu li a:hover {
+    background-color: rgba(131, 19, 127, 0.3);
+  }
+  .plasture {
+    width: 180px; /* Reducem dimensiunea plasturelui pe telefoane mici */
+    top: -20px; /* Ajustăm poziția */
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg); /* Rotire mai mică pe telefoane */
+  }
+
+  .about-container {
+    margin: 20px auto; /* Reducem marginile pentru a economisi spațiu */
+    padding: 10px; /* Micșorăm padding-ul pentru un aspect compact */
+  }
+
+  .about-image {
+    width: 100%; /* Imaginea devine de 100% lățime pe telefoane mici */
+    margin: 15px 0; /* Ajustăm marginea imaginii pentru a se potrivi mai bine */
+  }
+
+  .about-title {
+    font-size: 1.8rem; /* Micșorăm dimensiunea titlului */
+  }
+
+  .about-header {
+    flex-direction: column; /* Împărțim coloanele în una pe ecrane mici */
+    gap: 20px; /* Reducem spațiul dintre imagine și text */
+    text-align: center; /* Aliniem totul la centru */
+  }
+
+  .about-text {
+    font-size: 1rem; /* Micșorăm dimensiunea textului */
+  }
+
+  .about-content h2 {
+    font-size: 1.4rem; /* Micșorăm titlul din secțiunea content */
+  }
+
+  .about-content ul li {
+    font-size: 1rem; /* Reducem dimensiunea fontului pentru itemii din listă */
+  }
+
+  .about-content p {
+    font-size: 1rem; /* Micșorăm dimensiunea paragrafelor */
+  }
+  .book-category h1 {
+    font-size: 30px; /* Micșorăm dimensiunea titlului pe telefoane mici */
+  }
+
+  .books-container {
+    gap: 10px; /* Reducem spațierea dintre carduri */
+  }
+
+  .book-card {
+    flex-direction: column; /* Aranjăm cardurile pe verticală */
+    padding: 15px; /* Reducem paddingul cardului */
+    margin-bottom: 10px; /* Adăugăm mai mult spațiu între carduri */
+  }
+
+  .book-image {
+    width: 100%; /* Facem imaginea să ocupe întreaga lățime */
+    max-width: 300px; /* Limităm dimensiunea maximă a imaginii */
+  }
+
+  .book-title {
+    font-size: 25px; /* Micșorăm dimensiunea titlului pe telefoane mici */
+  }
+
+  .book-subtitle {
+    font-size: 18px; /* Micșorăm dimensiunea subtitlului */
+  }
+
+  .book-details p {
+    font-size: 12px; /* Micșorăm dimensiunea textului din detalii */
+  }
+
+  .buy-link {
+    font-size: 14px; /* Micșorăm dimensiunea fontului pentru link */
+  }
+  .dropdown {
+    width: 100%; /* Ajustează lățimea dropdown-ului pe dispozitivele mici */
+    font-size: 14px;
+    right: auto;
+    left: 0;
+    top: 10px;
+  }
+
+  .dropdown a {
+    font-size: 14px;
+    padding-left: 10px;
+  }
+
+  .register-box {
+    width: 90%; /* Ajustează lățimea formularului */
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 22px; /* Ajustează fontul titlului */
+  }
+
+  .form-group {
+    font-size: 14px; /* Micșorează fontul etichetelor inputurilor */
+  }
+
+  .form-group input {
+    font-size: 14px; /* Micșorează fontul inputurilor */
+  }
+
+  button {
+    font-size: 14px; /* Ajustează dimensiunea butonului */
+    padding: 10px;
+  }
+
+  .password-container input {
+    font-size: 14px; /* Ajustează fontul pentru input-ul de parolă */
+  }
+
+  .extra-links {
+    font-size: 12px; /* Micșorează fontul pentru linkuri */
+  }
+  .account-options {
+    flex-direction: column; /* Aranjează link-urile și paragrafele pe verticală */
+    align-items: flex-start;
+  }
+
+  .account-options a {
+    margin: 5px 0; /* Micșorează spațiul dintre linkuri */
+  }
+
+  .home-container {
+    width: 100%; /* Adaptează lățimea containerului pentru dispozitive mici */
+    padding: 15px;
+  }
+
+  .navbar {
+    flex-direction: column; /* Aranjează navbar-ul pe verticală */
+    gap: 10px; /* Micșorează spațiul între elementele navbar-ului */
+  }
+
+  .navbar a {
+    padding: 10px; /* Ajustează padding-ul pentru butoanele navbar-ului */
+  }
+
+  .content h2 {
+    font-size: 20px; /* Micșorează fontul pentru titlu */
+  }
+
+  .subscription, .reviews, .personal-info {
+    padding: 10px;
+  }
+
+  .subscription input {
+    width: calc(100% - 30px); /* Ajustează lățimea input-ului pentru a se potrivi */
+  }
+
+  .personal-info ul li {
+    font-size: 14px; /* Micșorează fontul listelor */
+  }
+
+  .log-out {
+    font-size: 15px; /* Micșorează dimensiunea textului pentru log-out */
+  }
+  .settings-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .settings-container h2 {
+    font-size: 18px;
+  }
+
+  .settings-form input[type="text"],
+  .settings-form input[type="email"],
+  .settings-form input[type="date"],
+  .settings-form input[type="password"],
+  .settings-form select {
+    font-size: 12px;
+  }
+
+  .settings-form button {
+    font-size: 13px;
+  }
+
+  .subscription-container {
+    margin-left: 10px;
+    width: 90%;
+    max-width: 320px;
+  }
+
+  .subscription-container h3 {
+    font-size: 1.2rem;
+  }
+
+  .subscription-container input[type="email"] {
+    font-size: 0.8rem;
+  }
+
+  .subscription-container button {
+    font-size: 0.8rem;
+  }
+}
+ 
 

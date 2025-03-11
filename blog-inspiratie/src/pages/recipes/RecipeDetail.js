@@ -1,10 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-// Aceleași date pentru rețete ca și în `RecipeCategory.js`
 const recipesData = {
   "feluri-principale": [
-    { id: 1, title: "Pizza Margherita", description: "O pizza clasică cu sos de roșii și mozzarella.", instructions: "Se face aluatul, se pune sosul, se adaugă mozzarella și se coace la 220°C." },
+    {
+      id: 1,
+      title: "Paste cremoase cu somon",
+      image: "https://gymbeam.ro/blog/wp-content/uploads/fly-images/638070/Navrh-bez-nazvu-2024-10-24T135929.651-688x439.png",
+      detailedDescription: "Pizza Margherita este o pizza italiană clasică, preparată cu sos de roșii proaspăt, mozzarella și busuioc. Este un preparat simplu și delicios, perfect pentru orice ocazie."
+    },
     { id: 2, title: "Lasagna", description: "O lasagna delicioasă cu carne și sos bechamel.", instructions: "Se pune carne tocată, se adaugă sos bechamel, straturi de lasagna și se coace." },
   ],
   "deserte": [
@@ -15,7 +19,7 @@ const recipesData = {
     { id: 5, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete.", instructions: "Se amestecă roșii, castraveți, măsline și brânză feta, se adaugă ulei de măsline și oregano." },
     { id: 6, title: "Salată Caesar", description: "Salată cu pui, crutoane și dressing Caesar.", instructions: "Se adaugă pui prăjit, crutoane, parmezan și dressing Caesar." },
   ],
-  "garnituri": [
+  "bauturi": [
     { id: 7, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete.", instructions: "Se amestecă roșii, castraveți, măsline și brânză feta, se adaugă ulei de măsline și oregano." },
     { id: 8, title: "Salată Caesar", description: "Salată cu pui, crutoane și dressing Caesar.", instructions: "Se adaugă pui prăjit, crutoane, parmezan și dressing Caesar." },
   ],
@@ -26,22 +30,24 @@ const recipesData = {
 };
 
 const RecipeDetail = () => {
-  const { category, id } = useParams(); // Preluăm categoria și id-ul din URL
-  const recipe = recipesData[category]?.find((r) => r.id === parseInt(id)); // Găsim rețeta după id
+  const { category, id } = useParams();
+  const recipe = recipesData[category]?.find((r) => r.id === parseInt(id));
 
   if (!recipe) {
     return <p>Rețeta nu a fost găsită.</p>;
   }
 
   return (
-    <div>
+    <div className="recipe-detail">
       <h1>{recipe.title}</h1>
-      <p>{recipe.description}</p>
+      <img src={recipe.image} alt={recipe.title} className="recipe-detail-image" />
+      <p>{recipe.detailedDescription}</p>
       <h2>Instrucțiuni:</h2>
       <p>{recipe.instructions}</p>
-      <button onClick={() => window.history.back()}>Înapoi</button>
+      <button onClick={() => window.history.back()} className="back-button">Înapoi</button>
     </div>
   );
 };
+
 
 export default RecipeDetail;

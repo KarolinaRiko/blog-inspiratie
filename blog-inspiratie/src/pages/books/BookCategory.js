@@ -15,12 +15,16 @@ function BookCategory() {
   const books = booksData[category] || [];
 
   return (
-    <div className="book-category">
-     <h1>{categoryNames[category] || "Categorie necunoscută"}</h1>
-
-      <div className="books-container">
+    <div className="container-all">
+    <div className="all-wrapper">
+      <div className="all-category">
+        <h1>{categoryNames[category] || "Categorie necunoscută"}</h1>
+        <hr className="dashed-line" />
+      </div>
+      
+      <div className="all-container">
         {books.map((book) => (
-          <div key={book.slug} className="book-card">
+          <div key={book.slug} className="all-card">
             <NavLink to={`/books/${category}/${book.slug}`}>
               <img src={book.image} alt={book.title} className="book-image" />
             </NavLink>
@@ -31,7 +35,7 @@ function BookCategory() {
                 </NavLink>
               </h2>
               <div className="book-subtitle">
-              <p>{book.subtitle}</p>
+                <p>{book.subtitle}</p>
               </div>
               {book.details && (
                 <div className="book-details">
@@ -44,16 +48,18 @@ function BookCategory() {
                   <p><strong>Cumpără: </strong> 
                     <NavLink to={book.details.cumpara} className="buy-link" target="_blank" rel="noopener noreferrer">
                       carturești
-                    </NavLink></p>
+                    </NavLink>
+                  </p>
                 </div>
               )}
-               
             </div>
           </div>
         ))}
       </div>
     </div>
+    </div>
   );
 }
+
 
 export default BookCategory;

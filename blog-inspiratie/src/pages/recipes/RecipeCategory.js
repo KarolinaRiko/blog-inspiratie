@@ -1,48 +1,52 @@
 import React from "react";
 import { useParams, NavLink } from "react-router-dom";
-
-const recipesData = {
-  "feluri-principale": [
-    { id: 1, title: "Pizza Margherita", description: "O pizza clasică cu sos de roșii și mozzarella." },
-    { id: 2, title: "Lasagna", description: "O lasagna delicioasă cu carne și sos bechamel." },
-  ],
-  "deserturi": [
-    { id: 3, title: "Tiramisu", description: "Desert italian cu mascarpone și cafea." },
-    { id: 4, title: "Cheesecake", description: "Cheesecake cremos cu sos de fructe de pădure." },
-  ],
-  "salate": [
-    { id: 5, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete." },
-    { id: 6, title: "Salată Caesar", description: "Salată cu pui, crutoane și dressing Caesar." },
-  ],
-  "garnituri": [
-    { id: 7, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete." },
-    { id: 8, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete." },
- ],
-  "supe": [
-    { id: 9, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete." },
-    { id: 10, title: "Salată Grecească", description: "Salată cu brânză feta și legume proaspete." },
-    ]
-};
+import recipesData from "./recipesData";
 
 const RecipeCategory = () => {
-  const { category } = useParams(); // Preluăm categoria din URL
-  const recipes = recipesData[category] || []; // Luăm rețetele din acea categorie
+  const { category } = useParams();
+  const filteredRecipes = recipesData[category] || [];
+
+  const categoryNames = {
+    "supe": "Supe",
+    "deserturi": "Deserturi",
+    "bauturi": "Bauturi",
+    "feluri-principale": "Feluri principale",
+    "salate": "Salate",
+  };
 
   return (
-    <div>
-      <h1>{category.replace("-", " ").toUpperCase()}</h1>
-      <ul>
-        {recipes.length > 0 ? (
-          recipes.map((recipe) => (
-            <li key={recipe.id}>
-              <NavLink to={`/recipes/${category}/${recipe.id}`}>{recipe.title}</NavLink> - {recipe.description}
-            </li>
-          ))
-        ) : (
-          <p>Nu există rețete în această categorie.</p>
-        )}
-      </ul>
-      <NavLink to="/recipes">Înapoi la toate categoriile</NavLink>
+    <div className="container-all">
+      <div className="all-wrapper">
+        <div className="all-category">
+          <h1>{categoryNames[category] || "Categorie necunoscută"}</h1>
+          <hr className="dashed-line" />
+        </div>
+      
+        <div className="all-container">
+          {filteredRecipes.length > 0 ? (
+            filteredRecipes.map((recipe) => (
+              <div key={recipe.slug} className="all-card">
+                <NavLink to={`/recipes/${recipe.slug}`}>
+                  <img src={recipe.image} alt={recipe.title} className="all-image" />
+                </NavLink>
+                <div className="all-info">
+                  <h2>
+                    <NavLink to={`/recipes/${recipe.slug}`} className="all-title">
+                      {recipe.title}
+                    </NavLink> 
+                  </h2>
+                  <p className="all-subtitle">{recipe.description}</p>
+                </div>
+                <NavLink to={`/recipes/${recipe.slug}`}>
+                    <button className="read-more-button">CITESTE...</button>
+                  </NavLink>
+              </div>
+            ))
+          ) : (
+            <p>Nu există rețete în această categorie.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

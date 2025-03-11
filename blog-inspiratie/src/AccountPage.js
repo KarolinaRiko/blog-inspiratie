@@ -40,21 +40,22 @@ const AccountPage = ({ onLogout }) => {
   }, [navigate]);
 
   return (
+    <div className="container">
     <div className="home-container">
       
-      {/* Conținut principal */}
       <div className="content">
         {loading ? (
-          <p>Se încarcă datele utilizatorului...</p> // Afișează doar dacă încă se încarcă
+          <p>Se încarcă datele utilizatorului...</p>
         ) : userData ? (
           <>
             <h2>Hi, {userData.firstName}</h2>
             <p>{userData.email}</p>
 
             <nav className="navbar">
-            <NavLink to="/subscription" activeClassName="active">Subscription</NavLink>
-              <NavLink to="/review" activeClassName="active">Review</NavLink>
-              <NavLink to="/settings" activeClassName="active">Settings</NavLink>
+             <NavLink to="/subscription" activeClassName="active">Subscription</NavLink>
+              <NavLink to="/settings" className={({ isActive }) => (isActive ? "active" : "")}>
+              Settings
+             </NavLink>
               <Logout />
 
             </nav>
@@ -76,6 +77,7 @@ const AccountPage = ({ onLogout }) => {
           <p>Nu am găsit datele utilizatorului!</p>
         )}
       </div>
+    </div>
     </div>
   );
 };
