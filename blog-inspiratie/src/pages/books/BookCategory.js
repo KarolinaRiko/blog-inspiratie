@@ -17,7 +17,7 @@ function BookCategory() {
   return (
     <div className="container-all">
     <div className="all-wrapper">
-      <div className="all-category">
+      <div className="all-category"> 
         <h1>{categoryNames[category] || "Categorie necunoscută"}</h1>
         <hr className="dashed-line" />
       </div>

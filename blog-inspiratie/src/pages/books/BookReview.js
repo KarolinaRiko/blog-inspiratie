@@ -11,9 +11,9 @@ const bookReviews = {
       category: "Spiritualitate",
       language: "Română",
       published: "2024",
-      publisher: "Herald",
+      publisher: "Herald", 
       pages: 272
-    },
+    }, 
     rating: 5,
     review: {
       introduction: [

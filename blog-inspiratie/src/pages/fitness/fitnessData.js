@@ -1,14 +1,14 @@
 const fitnessData = {
   "exercitii-upper": [
   {
-    slug: "push-ups ",
+    slug: "push-ups",
     title: "Push-ups ",
     description: "Flotările sunt un exercițiu clasic care lucrează pieptul, umerii și tricepsul. Poți varia dificultatea prin modificarea poziției mâinilor sau prin adăugarea de greutăți.",
     image: "https://www.realsimple.com/thmb/-PW_i-RMLQ4cj3-okjqccGGUock=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/health-benefits-of-pushups-GettyImages-498315681-7008d40842444270868c88b516496884.jpg",
     category: "exercitii-upper", 
   },
   {
-    slug: "dumbbell-shoulder-press ",
+    slug: "dumbbell-shoulder-press",
     title: "Dumbbell Shoulder Press ",
     description: "Acest exercițiu se concentrează pe dezvoltarea umerilor, ajutând la creșterea forței și stabilității acestora. Se poate face stând pe un scaun sau în picioare, cu ganterele în mâini.",
     image: "https://sportivetricksstorage.blob.core.windows.net/images/articles/training/technique/db-shoulder-press/1-man-pressing.webp",
@@ -52,7 +52,7 @@ const fitnessData = {
   ],
   "exercitii-lower": [
   {
-    slug: "squats ",
+    slug: "squats",
     title: "Squats ",
     description: "Genuflexiunile sunt fundamentale pentru întărirea coapselor, fesierilor și gambelor. Poți varia dificultatea prin adăugarea de greutăți sau prin adâncirea mișcării.",
     image: "https://www.verywellfit.com/thmb/RME17zorpHqz5CI_XW4lkFwTd8A=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/young-female-athlete-lifting-kettle-bell-while-crouching-in-gym-1284730860-a3f1a3d2b2d14311bcbf4754f5e0effa.jpg",

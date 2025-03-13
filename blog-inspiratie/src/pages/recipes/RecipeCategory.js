@@ -26,18 +26,18 @@ const RecipeCategory = () => {
           {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe) => (
               <div key={recipe.slug} className="all-card">
-                <NavLink to={`/recipes/${recipe.slug}`}>
+                <NavLink to={`/recipes/${category}/${recipe.slug}`}>
                   <img src={recipe.image} alt={recipe.title} className="all-image" />
                 </NavLink>
                 <div className="all-info">
                   <h2>
-                    <NavLink to={`/recipes/${recipe.slug}`} className="all-title">
+                    <NavLink to={`/recipes/${category}/${recipe.slug}`} className="all-title">
                       {recipe.title}
                     </NavLink> 
                   </h2>
                   <p className="all-subtitle">{recipe.description}</p>
                 </div>
-                <NavLink to={`/recipes/${recipe.slug}`}>
+                <NavLink to={`/recipes/${category}/${recipe.slug}`}>
                     <button className="read-more-button">CITESTE...</button>
                   </NavLink>
               </div>

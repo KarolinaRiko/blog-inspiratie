@@ -6,7 +6,7 @@ const Recipes = () => {
     <div className="container-all">
       <div className="all-wrapper">
         <div className="all-category">
-          <h1>Toate categoriile</h1>
+          <h1>Toate categoriile</h1> 
           <hr className="dashed-line" />
         </div>
         <div className="all-container">

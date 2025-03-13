@@ -25,18 +25,18 @@ const FitnessCategory = () => {
           {filteredExercises.length > 0 ? (
             filteredExercises.map((fitness) => (
               <div key={fitness.slug} className="all-card">
-                <NavLink to={`/fitness/${fitness.slug}`}>
+                <NavLink to={`/fitness/${category}/${fitness.slug}`}>
                   <img src={fitness.image} alt={fitness.title} className="all-image" />
                 </NavLink>
                 <div className="all-info">
                   <h2>
-                    <NavLink to={`/fitness/${fitness.slug}`} className="all-title">
+                    <NavLink to={`/fitness/${category}/${fitness.slug}`} className="all-title">
                       {fitness.title}
                     </NavLink>
                   </h2>
                   <p className="all-subtitle">{fitness.description}</p>
                 </div>
-                <NavLink to={`/fitness/${fitness.slug}`}>
+                <NavLink to={`/fitness/${category}/${fitness.slug}`}>
                   <button className="read-more-button">DETALII</button>
                 </NavLink>
               </div>

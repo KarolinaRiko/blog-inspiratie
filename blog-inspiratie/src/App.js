@@ -60,40 +60,40 @@ function App() {
     { title: "Twisted Lies", category: "books/romantism" },
     { title: "Mindfulness zi de zi", category: "books/spiritualtitate" },
     { title: "Human Design", category: "books/spiritualtitate" },
-    { title: "Paste cremoase cu somon", category: "recipes" },
-    { title: "Gulas de vita", category: "recipes" },
-    { title: "Rulouri cu scortisoara si dovleac", category: "recipes" },
-    { title: "Cheesecake cu tofu si arahide", category: "recipes" },
-    { title: "Salata cu bulgur si carne de curcan", category: "recipes" },
-    { title: "Salata Nicoise", category: "recipes" },
-    { title: "Pumpkin Spice Latte", category: "recipes" },
-    { title: "Smoothie cremos cu banane si unt de arahide", category: "recipes" },
-    { title: "Supa de dovleac", category: "recipes" },
-    { title: "Supa de pui dulce-acrisoara", category: "recipes" },
+    { title: "Paste cremoase cu somon", category: "recipes/feluri-principale" },
+    { title: "Gulas de vita", category: "recipes/feluri-principale" },
+    { title: "Rulouri cu scortisoara si dovleac", category: "recipes/deserturi" },
+    { title: "Cheesecake cu tofu si arahide", category: "recipes/deserturi" },
+    { title: "Salata cu bulgur si carne de curcan", category: "recipes/salate" },
+    { title: "Salata Nicoise", category: "recipes/salate" },
+    { title: "Pumpkin Spice Latte", category: "recipes/bauturi" },
+    { title: "Smoothie cremos cu banane si unt de arahide", category: "recipes/bauturi" },
+    { title: "Supa de dovleac", category: "recipes/supe" },
+    { title: "Supa de pui dulce-acrisoara", category: "recipes/supe" },
     { title: "Yoga", category: "mindfulness" },
     { title: "Meditatie", category: "mindfulness" },
     { title: "Aromoterapie", category: "mindfulness" },
-    { title: "Mountain Climbers", category: "fitness" },
-    { title: "Flutter Kicks", category: "fitness" },
-    { title: "Leg Raises", category: "fitness" },
-    { title: "Russian Twists", category: "fitness" },
-    { title: "Bicycle Crunches", category: "fitness" },
-    { title: "Crunches", category: "fitness" },
-    { title: "Plank", category: "fitness" },
-    { title: "Calf Raises", category: "fitness" },
-    { title: "Step-ups", category: "fitness" },
-    { title: "Leg Curls", category: "fitness" },
-    { title: "Deadlifts", category: "fitness" },
-    { title: "Lunges", category: "fitness" },
-    { title: "Glute Bridges", category: "fitness" },
-    { title: "Squats", category: "fitness" },
-    { title: "Bicep Curls", category: "fitness" },
-    { title: "Chest Press", category: "fitness" },
-    { title: "Lateral Raises", category: "fitness" },
-    { title: "Triceps Dips", category: "fitness" },
-    { title: "Bent-over Rows", category: "fitness" },
-    { title: "Push-ups", category: "fitness" },
-    { title: "Dumbbell Shoulder Press", category: "fitness" }
+    { title: "Mountain Climbers", category: "fitness/apdomen" },
+    { title: "Flutter Kicks", category: "fitness/apdomen" },
+    { title: "Leg Raises", category: "fitness/apdomen" },
+    { title: "Russian Twists", category: "fitness/apdomen" },
+    { title: "Bicycle Crunches", category: "fitness/apdomen" },
+    { title: "Crunches", category: "fitness/apdomen" },
+    { title: "Plank", category: "fitness/apdomen" },
+    { title: "Calf Raises", category: "fitness/exercitii-lower" },
+    { title: "Step-ups", category: "fitness/exercitii-lower" },
+    { title: "Leg Curls", category: "fitness/exercitii-lower" },
+    { title: "Deadlifts", category: "fitness/exercitii-lower" },
+    { title: "Lunges", category: "fitness/exercitii-lower" },
+    { title: "Glute Bridges", category: "fitness/exercitii-lower" },
+    { title: "Squats", category: "fitness/exercitii-lower" },
+    { title: "Bicep Curls", category: "fitness/exercitii-upper" },
+    { title: "Chest Press", category: "fitness/exercitii-upper" },
+    { title: "Lateral Raises", category: "fitness/exercitii-upper" },
+    { title: "Triceps Dips", category: "fitness/exercitii-upper" },
+    { title: "Bent-over Rows", category: "fitness/exercitii-upper" },
+    { title: "Push-ups", category: "fitness/exercitii-upper" },
+    { title: "Dumbbell Shoulder Press", category: "fitness/exercitii-upper" }
   ], []);
 
   useEffect(() => {
@@ -314,13 +314,13 @@ function App() {
         <Route path="/books/:category" element={<BookCategory />} />
         <Route path="/books/:category/:bookSlug" element={<BookReview />} />
         <Route path="/books/:category/:title" element={<Books />} />
-        <Route path="/recipes/:category/:title" element={<Recipes />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/recipes/:category" element={<RecipeCategory />} />
-        <Route path="/recipes/:category/:id" element={<RecipeDetail />} />
+        <Route path="/recipes/:category/:recipeSlug" element={<RecipeDetail />} />
+        <Route path="/recipes/:category/:title" element={<Recipes />} />
         <Route path="/fitness" element={<Fitness />} />
         <Route path="/fitness/:category" element={<FitnessCategory />} />
-        <Route path="/fitness/:category/:id" element={<FitnessDetail />} />
+        <Route path="/fitness/:category/:fitnessSlug" element={<FitnessDetail />} />
         <Route path="/fitness/:category/:title" element={<Fitness />} />
         <Route path="/mindfulness" element={<Mindfulness />} />
         <Route path="/mindfulness/meditatie" element={<Meditatie />} />
