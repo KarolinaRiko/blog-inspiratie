@@ -15,7 +15,7 @@ const fitnessData = {
     category: "exercitii-upper", 
   },
   {
-    slug: "bent-over rows",
+    slug: "bent-over-rows",
     title: "Bent-over Rows",
     description: "Întărește spatele superior și bicepsul cu acest exercițiu, concentrându-te pe mișcarea controlată și postura corectă.",
     image: "https://d1lcvt77zgh63s.cloudfront.net/wp-content/uploads/2023/09/barbell-bent-over-row.jpg",
@@ -66,7 +66,7 @@ const fitnessData = {
     category: "exercitii-lower", 
   },
   {
-    slug: "glute bridges",
+    slug: "glute-bridges",
     title: "Glute Bridges",
     description: "Acest exercițiu se concentrează pe întărirea fesierilor și a zonei inferioare a spatelui. Ideal pentru îmbunătățirea posturii și tonifierii regiunii.",
     image: "https://media1.popsugar-assets.com/files/thumbor/yMI6InOmnA7DfQk84CZsJzEE3cU=/45x757:1376x1456/fit-in/1456x1456/filters:format_auto():quality(85):upscale()/2024/04/22/755/n/1922729/33380390662699744964a6.05278932_.jpg",

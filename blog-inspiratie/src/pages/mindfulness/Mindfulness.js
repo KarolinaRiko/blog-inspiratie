@@ -51,7 +51,7 @@ const Mindfulness = () => {
             </NavLink>
           </div>
           <div className="all-card">
-            <NavLink to="/mindfulness/aromoterapie" className="all-title">
+            <NavLink to="/mindfulness/aromaterapie" className="all-title">
               <img
                 src="https://alecoair.ro/assets/blog_images/cele_mai_bune_uleiuri_esentiale_aromaterapie_682212448_(1).jpg"
                 alt="Aromoterapie"
@@ -60,13 +60,13 @@ const Mindfulness = () => {
             </NavLink>
             <div className="all-info">
             <h2>
-            <NavLink to="/mindfulness/aromoterapie" className="all-title">Aromoterapie</NavLink>
+            <NavLink to="/mindfulness/aromaterapie" className="all-title">Aromaterapie</NavLink>
             </h2>
             <div className="all-subtitle">
              <p>Flotările sunt un exercițiu clasic care lucrează pieptul, umerii și tricepsul. Poți varia dificultatea prin modificarea poziției mâinilor sau prin adăugarea de greutăți.</p>
              </div>
              </div>
-            <NavLink to="/mindfulness/aromoterapie">
+            <NavLink to="/mindfulness/aromaterapie">
               <button className="read-more-button">CITESTE...</button>
             </NavLink>
           </div>

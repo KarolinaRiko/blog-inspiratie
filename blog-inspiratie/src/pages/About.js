@@ -1,5 +1,5 @@
 import React from "react";
-import "../App.css"; // Asigură-te că acest import există
+import "../App.css";
 
 const About = () => {
   return (
@@ -10,8 +10,6 @@ const About = () => {
           <hr className="dashed-line" />
         </div>
         <div className="all-container">
-
-
           <h1 className="about-title">Bun venit pe <span className="highlight">Inspiratie!</span></h1>
           <div className="about-header">
             <div className="about-text">
@@ -34,14 +32,12 @@ const About = () => {
               <li>Retete sanatoase si delicioase</li>
               <li>Cunoasterea partii de spiritualitate</li>
             </ul>
-
             <h2>Conecteaza-te cu Inspiratie</h2>
             <ul>
               <li><strong>Citeste blogul:</strong>&nbsp;Vezi articolele postate de mine.</li>
               <li><strong>Aboneaza-te la Newsletter:</strong>&nbsp;Primești sfaturi utile și pline de inspirație.</li>
               <li><strong>Alatura-te de Inspiratie:</strong>&nbsp;Hai să cream împreună o viață mai împlinită!</li>
             </ul>
-
             <h2>Despre mine</h2>
             <p>
               Ma numesc Karolina. Si sunt pasionata de dezvoltarea personala, sunt pe cale de a evolua cat mai mult.

@@ -25,26 +25,37 @@ const FitnessCategory = () => {
           {filteredExercises.length > 0 ? (
             filteredExercises.map((fitness) => (
               <div key={fitness.slug} className="all-card">
-                <NavLink to={`/fitness/${category}/${fitness.slug}`}>
+                {category !== "secrete-gym" ? (
+                  <NavLink to={`/fitness/${category}/${fitness.slug}`}>
+                    <img src={fitness.image} alt={fitness.title} className="all-image" />
+                  </NavLink>
+                ) : (
                   <img src={fitness.image} alt={fitness.title} className="all-image" />
-                </NavLink>
+                )}
                 <div className="all-info">
                   <h2>
-                    <NavLink to={`/fitness/${category}/${fitness.slug}`} className="all-title">
-                      {fitness.title}
-                    </NavLink>
+                    {category !== "secrete-gym" ? (
+                      <NavLink to={`/fitness/${category}/${fitness.slug}`} className="all-title">
+                        {fitness.title}
+                      </NavLink>
+                    ) : (
+                      <span className="all-title">{fitness.title}</span>
+                    )}
                   </h2>
                   <p className="all-subtitle">{fitness.description}</p>
                 </div>
-                <NavLink to={`/fitness/${category}/${fitness.slug}`}>
-                  <button className="read-more-button">DETALII</button>
-                </NavLink>
+                {category !== "secrete-gym" && (
+                  <NavLink to={`/fitness/${category}/${fitness.slug}`}>
+                    <button className="read-more-button">DETALII</button>
+                  </NavLink>
+                )}
               </div>
             ))
           ) : (
             <p>Nu există exerciții disponibile.</p>
           )}
         </div>
+
       </div>
     </div>
   );

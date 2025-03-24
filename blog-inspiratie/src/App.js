@@ -28,7 +28,7 @@ import FitnessDetail from './pages/fitness/FitnessDetail';
 import Mindfulness from './pages/mindfulness/Mindfulness.js';
 import Yoga from './pages/mindfulness/yoga.js';
 import Meditatie from './pages/mindfulness/meditatie.js';
-import Aromoterapie from './pages/mindfulness/aromoterapie.js';
+import Aromaterapie from './pages/mindfulness/aromaterapie.js';
 import Logout from './Logout';
 import SubscriptionForm from './SubscriptionForm';
 
@@ -40,6 +40,7 @@ function App() {
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const searchContainerRef = useRef(null);
+  
 
   let hideDropdownTimeout = null;
 
@@ -72,7 +73,7 @@ function App() {
     { title: "Supa de pui dulce-acrisoara", category: "recipes/supe" },
     { title: "Yoga", category: "mindfulness" },
     { title: "Meditatie", category: "mindfulness" },
-    { title: "Aromoterapie", category: "mindfulness" },
+    { title: "Aromaterapie", category: "mindfulness" },
     { title: "Mountain Climbers", category: "fitness/apdomen" },
     { title: "Flutter Kicks", category: "fitness/apdomen" },
     { title: "Leg Raises", category: "fitness/apdomen" },
@@ -146,7 +147,7 @@ function App() {
   const handleMouseLeave = () => {
     hideDropdownTimeout = setTimeout(() => {
       setDropdown(null);
-    }, 1000);
+    }, 300);
   };
   const handleMouseEnterUser = () => {
     clearTimeout(hideDropdownTimeout);
@@ -155,7 +156,7 @@ function App() {
   const handleMouseLeaveUser = () => {
     hideDropdownTimeout = setTimeout(() => {
       setUserDropdown(false);
-    }, 1000);
+    }, 300);
   };
 
 
@@ -294,7 +295,7 @@ function App() {
                 onMouseLeave={handleMouseLeave}>
                   <li><NavLink to="/mindfulness/meditatie" className="sub-menu-item">Meditatie</NavLink></li>
                   <li><NavLink to="/mindfulness/yoga" className="sub-menu-item">Yoga</NavLink></li>
-                  <li><NavLink to="/mindfulness/aromoterapie" className="sub-menu-item">Aromoterapie</NavLink></li>
+                  <li><NavLink to="/mindfulness/aromaterapie" className="sub-menu-item">Aromaterapie</NavLink></li>
                 </ul>
               )}
             </li>
@@ -325,7 +326,7 @@ function App() {
         <Route path="/mindfulness" element={<Mindfulness />} />
         <Route path="/mindfulness/meditatie" element={<Meditatie />} />
         <Route path="/mindfulness/yoga" element={<Yoga />} />
-        <Route path="/mindfulness/aromoterapie" element={<Aromoterapie />} />
+        <Route path="/mindfulness/aromaterapie" element={<Aromaterapie />} />
         <Route path="/mindfulness/:category/:title" element={<Mindfulness />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />

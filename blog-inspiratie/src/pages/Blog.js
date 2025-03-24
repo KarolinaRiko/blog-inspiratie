@@ -13,14 +13,14 @@ const subcategoryImages = {
   "Apdomen": "https://i0.1616.ro/media/2/2701/33670/16903708/1/aparate-fitness-abdomen-1.jpg?width=860",
   "Meditatie": "https://www.catena.ro/assets/uploads/files/images/meditatie.jpg",
   "Yoga": "https://www.auromere.com/images/Yoga-Pastel-Sun-FB.jpg",
-  "Aromoterapie": "https://assets.protv.md/articles/files/thumbs/900x/2021/12/07/celemaibuneuleiuriesentialearomaterapie6822124481-1638885887volwolx.jpeg",
+  "Aromaterapie": "https://assets.protv.md/articles/files/thumbs/900x/2021/12/07/celemaibuneuleiuriesentialearomaterapie6822124481-1638885887volwolx.jpeg",
 };
 
 const categories = [
   { name: "Books", path: "/books", subcategories: ["Dezvoltare personala", "Romantism", "Spiritualitate"] },
   { name: "Recipes", path: "/recipes", subcategories: ["Feluri principale", "Supe", "Salate"] },
   { name: "Fitness", path: "/fitness", subcategories: ["Exercitii Upper", "Exercitii Lower", "Apdomen"] },
-  { name: "Mindfulness", path: "/mindfulness", subcategories: ["Meditatie", "Yoga", "Aromoterapie"] },
+  { name: "Mindfulness", path: "/mindfulness", subcategories: ["Meditatie", "Yoga", "Aromaterapie"] },
 ];
 
 export default function Blog() {
