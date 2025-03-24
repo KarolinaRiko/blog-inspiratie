@@ -403,7 +403,7 @@ li:focus-within .dropdown-menu {
   margin: 5;
   font-size: 15px; 
 }
-
+ 
 .dropdown a:hover {
   background-color: rgba(131, 19, 127, 0.411); /* Fundal doar fără linie jos */
 }
