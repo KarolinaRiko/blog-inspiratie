@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getFirestore, setDoc, doc } from "firebase/firestore";
 
-// Configurația Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDjHOQySf5ZiBmYar1R_uG9vkgt-DWKk3c",
   authDomain: "blog-inspiratie.firebaseapp.com",
@@ -12,21 +11,15 @@ const firebaseConfig = {
   appId: "1:819633241510:web:d828a1d6c815bb1c1ca367",
 };
 
-// Inițializăm aplicația Firebase
 const app = initializeApp(firebaseConfig);
-
-// Creăm instanța de autentificare și Firestore
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-// Funcția de înregistrare
 const registerUser = async (email, password, firstName, lastName) => {
+
   try {
-    // Creează utilizatorul în Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Adaugă numele și prenumele în Firestore
     await setDoc(doc(db, "users", user.uid), {
       firstName,
       lastName,
@@ -39,15 +32,12 @@ const registerUser = async (email, password, firstName, lastName) => {
   }
 };
 
-// Funcția de login
 const login = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
 
-// Funcția de logout
 const logout = () => {
   return signOut(auth);
 };
 
-// Exportăm auth, registerUser, login și logout
 export { auth, db, registerUser, login, logout };

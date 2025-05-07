@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
-import fitnessData from "./fitnessData";
+import { db } from "../../firebase.js";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
-const FitnessCategory = () => {
+const categoryNames = {
+  "exercitii-upper": "Exerciții Upper",
+  "exercitii-lower": "Exerciții Lower",
+  "abdomen": "Abdomen",
+  "secrete-gym": "Secrete Gym",
+};
+
+function FitnessCategory() {
   const { category } = useParams();
-  const filteredExercises = fitnessData[category] || [];
+  const [exercises, setExercises] = useState([]);
 
-  const categoryNames = {
-    "exercitii-upper": "Exercitii Upper",
-    "exercitii-lower": "Exercitii Lower",
-    "apdomen": "Apdomen",
-    "secrete-gym": "Secrete Gym",
-  };
+  useEffect(() => {
+    const fetchExercises = async () => {
+      const exercisesRef = collection(db, "fitness");
+      const q = query(exercisesRef, where("category", "==", category));
+      const querySnapshot = await getDocs(q);
+      const exercisesList = querySnapshot.docs.map(doc => doc.data());
+      setExercises(exercisesList);
+    };
+
+    fetchExercises();
+  }, [category]);
 
   return (
     <div className="container-all">
@@ -20,10 +33,9 @@ const FitnessCategory = () => {
           <h1>{categoryNames[category] || "Categorie necunoscută"}</h1>
           <hr className="dashed-line" />
         </div>
-
         <div className="all-container">
-          {filteredExercises.length > 0 ? (
-            filteredExercises.map((fitness) => (
+          {exercises.length > 0 ? (
+            exercises.map((fitness) => (
               <div key={fitness.slug} className="all-card">
                 {category !== "secrete-gym" ? (
                   <NavLink to={`/fitness/${category}/${fitness.slug}`}>
@@ -55,10 +67,9 @@ const FitnessCategory = () => {
             <p>Nu există exerciții disponibile.</p>
           )}
         </div>
-
       </div>
     </div>
   );
-};
+}
 
 export default FitnessCategory;

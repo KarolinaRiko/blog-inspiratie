@@ -1,97 +1,248 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { db } from "../../firebase.js";
+import { useParams } from "react-router-dom";
+import { collection, getDoc, addDoc, query, where, onSnapshot, doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import CommentForm from "../../Comments/CommentForm.js";
+import { getAuth } from "firebase/auth";
 
-export const Aromaterapie = () => (
-  <div className="container-all">
-    <div className="all-wrapper">
-      <div className="all-category">
-        <h1>Aromaterapie și Beneficiile Sale</h1>
-        <hr className="dashed-line" />
-      </div>
-      <div className="all-container">
-        {/* Introducere */}
-        <div className="intro-section">
-          <div className="intro-text">
-            <div className='introducere'>Cu siguranță ai mai auzit de aromaterapie, însă te-ai întrebat vreodată în ce constă aceasta?</div>
-            <b>Aromaterapia presupune utilizarea uleiurilor esențiale și a altor substanțe aromatice naturale pentru bunăstarea fizică, psihologică și spirituală.</b>
-          </div>
-        </div>
-        <div className="aroma-title">Ce este aromaterapie?</div>
-        <div className="intro-section">
 
-          <div className="intro-image">
-            <img src="https://cluj24.ro/wp-content/uploads/2024/10/poza-principala-e1727771716630.jpg" alt="Aromaterapie" />
-          </div>
-          <div className="intro-text">
-            <div className='aroma'>Aromaterapia reprezintă o experiență senzorială sublimă, în care parfumul natural al uleiurilor esențiale se întâlnesc în armonie pentru a încânta atât mintea, cât și corpul.</div>
-            <div className='aroma'>Această formă de terapie holistică îmbină arta mâinilor experte ale terapeutului cu puterea magica a aromelor, oferindu-ți un răsfăț aparte și o eliberare profundă a stresului.</div>
-          </div>
+const Aromaterapie = () => {
+  const [data, setData] = useState(null);
+  const { slug } = useParams();
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState({ name: "", email: "", text: "" });
+  const [userId, setUserId] = useState(null);
+  const [replyText, setReplyText] = useState("");
+  const [replyingToId, setReplyingToId] = useState(null);
+  const ADMIN_UID = "7Lgzc3qEyHWDENPO0BunY81jMMm2";
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserId(user.uid);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!slug) return;
+    const commentsRef = collection(db, "comments");
+    const q = query(
+      commentsRef,
+      where("postId", "==", slug),
+      where("postType", "==", "Mindfulness")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      list.sort((a, b) => b.createdAt?.seconds - a.createdAt?.seconds);
+      setComments(list);
+    });
+
+    return () => unsubscribe();
+  }, [slug, userId]);
+
+  const handleLike = async (id, likes, likedBy) => {
+    if (!likedBy) likedBy = [];
+
+    if (likedBy.includes(userId)) {
+      await updateDoc(doc(db, "comments", id), {
+        likes: likes - 1,
+        likedBy: likedBy.filter(uid => uid !== userId)
+      });
+    } else {
+      await updateDoc(doc(db, "comments", id), {
+        likes: likes + 1,
+        likedBy: [...likedBy, userId]
+      });
+    }
+  };
+
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    if (!newComment.name || !newComment.text) return;
+
+    const newCommentData = {
+      ...newComment,
+      postId: slug,
+      postType: "Mindfulness",
+      createdAt: serverTimestamp(),
+      likes: 0,
+      likedBy: [],
+      userId: userId,
+      replied: false
+    };
+
+    await addDoc(collection(db, "comments"), newCommentData);
+    setComments((prevComments) => [newCommentData, ...prevComments]);
+
+    setNewComment({ name: "", email: "", text: "" });
+  };
+
+  const handleReplySubmit = async (e, commentId) => {
+    e.preventDefault();
+    if (!replyText) return;
+
+    await updateDoc(doc(db, "comments", commentId), {
+      reply: replyText,
+      replied: true,
+    });
+
+    setReplyText("");
+    setReplyingToId(null);
+  };
+
+  useEffect(() => {
+    const fetchAromaterapie = async () => {
+      try {
+        const docRef = doc(db, "Mindfulness", slug);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setData(docSnap.data());
+        } else {
+          console.log("Documentul nu există.");
+        }
+      } catch (error) {
+        console.error("Eroare la încărcare:", error);
+      } 
+    };
+
+    fetchAromaterapie();
+  }, [slug]);
+
+  if (!data) return <p>Nu s-au găsit date.</p>;
+
+
+  return (
+    <div className="container-all">
+      <div className="all-wrapper">
+        <div className="all-category">
+          <h1>{data.title}</h1>
+          <hr className="dashed-line" />
         </div>
-        <div className="benefits-section">
-          <div className="aromas-title">Beneficiile Aromaterapiei</div>
-          <ul>
-            <li><b>Reducerea stresului și a anxietății</b> lavanda, bergamota - au efecte calmante, contribuind la reducerea nivelului de stres si anxietate. Inhalarea acestor arome poate stimula productia de serotonina, neurotransmitator asociat cu starea de bine.</li>
-            <li><b>Imbunatatirea Calitatii Somnului:</b> lavanda, lemn de trandafir si eucalipt - aceste uleiuri esentiale pot favoriza un somn odihnitor. Adauga cateva picaturi in difuzor sau aplica pe perna inainte de culcare pentru un efect relaxant.</li>
-            <li><b>Stimularea Concentratiei si a Energiei:</b> menta, lamaie si rozmarin - sunt cateva dintre uleiurile ce pot contribui la cresterea nivelului de energie si a concentrarii. Foloseste aceste arome in timpul activitatilor care necesita focus si atentie sporita.</li>
-            <li><b>Reducerea Durerilor si Disconfortului:</b> ghimbirul si tea tree pot avea efecte antiinflamatorii si analgezice. Adauga-le in uleiuri de masaj sau aplica-le diluate direct pe zonele afectate pentru un relief localizat.</li>
-            <li><b>Imbunatatirea Starii Emotionale:</b> lavanda, ylang-ylang, bergamonta, menta. Crearea unei rutine de aromaterapie poate contribui la gestionarea emotiilor si la imbunatatirea starii generale de bine.</li>
-            <li><b>Sprijin pentru Sistemul Respirator:</b> eucalipt, menta, tea tree sunt uleiuri care au proprietati expectorante si antivirale.</li>
-            <li><b>Echilibrarea Energiei Vitale:</b> lamaie, busuioc, rozmarin, menta - utilizarea acestor uleiuri esentiale in meditatii sau ritualuri poate sustine armonizarea energiei.</li>
-            <li><b>Imbunatatirea functiei sistemului imunitar:</b> Unele uleiuri esentiale, cum ar fi eucaliptul, cimbrul sau tea tree, au proprietati antimicrobiene si antiinflamatorii care pot ajuta la stimularea sistemului imunitar si la combaterea infectiilor.</li>
-          </ul>
-        </div> 
-        <div className="essential-oils-section">
-          <div className="aromas-title">Uleiuri Esentiale Populare</div>
-          <div className="oil-container">
-            <div className="oil-item">
-              <div className='oil-title'>Lavandă</div>
-              <p>Este ideal pentru persoanele ce au nevoie de relaxare, reducând anxietatea. Acesta este indicat pentru îngrijirea pielii în general, reducând mâncărimea, chiar și în cazul înțepăturilor de insecte.</p>
-            </div>
-            <div className="oil-item">
-              <div className='oil-title'>Mentă</div>
-              <p>Contribuie activ la reducerea durerilor de cap și a migrenelor, are efect energizant și antispasmodic, elimină oboseala.</p>
-            </div>
-            <div className="oil-item">
-              <div className='oil-title'>Eucalipt</div>
-              <p>Este potrivit pentru a fi folosit în sezonul răcelilor, are rol expectorant și decongestionant. Printre beneficiile uleiului de eucalipt se numără și acela de energizare. </p>
-            </div>
-            <div className="oil-item">
-              <div className='oil-title'>Lămâie</div>
-              <p>Are efect antimicrobian, antioxidant, reduce stresul, îmbunătățește imunitatea. Este ideal pentru împrospătarea lucrurilor din interiorul casei, având un miros extrem de plăcut și proaspăt. </p>
-            </div>
-            <div className="oil-item">
-              <div className='oil-title'>Mandarin</div>
-              <p>Acesta este folosit pentru a induce o stare de calmitate, are un miros plăcut, energizant. </p>
-            </div>
-            <div className="oil-item">
-              <div className='oil-title'>Rozmarin</div>
-              <p>Beneficiile uleiului esențial de rozmarin sunt multiple, acesta fiind folosit mai ales de către persoanele care se confruntă cu o congestie respiratorie, bronșită, răceli, îmbunătățind sistemul circulator.</p>
+        <div className="recipe-container">
+          <div className="intro-section">
+            <div className="intro-text">
+              <div className="introducere">{data.introducere.text1}</div>
+              <b>{data.introducere.text2}</b>
             </div>
           </div>
-        </div>
-        <div className="modalitati-section">
-          <div className="aromas-title">Modalitati de Utilizare</div>
-          <ul>
-            <li><b>Inhalare:</b> Inhalarea directa a uleiurilor esentiale din flacon sau de pe o bucata de tesatura poate fi utila pentru a beneficia rapid de proprietatile lor. De asemenea, se pot adauga cateva picaturi de ulei esential intr-un lighean cu apa fierbinte si inhalati vaporii.</li>
-            <li><b>Masaj:</b> Uleiurile esentiale pot fi diluate intr-un ulei purtator, cum ar fi uleiul de cocos sau uleiul de migdale dulci si apoi utilizate pentru masaj. Aceasta este o modalitate eficienta de a permite pielii sa absoarba substantele active ale uleiului esential, oferind in acelasi timp beneficii terapeutice.</li>
-            <li><b>Băi aromatice:</b> Adaugarea catorva picaturi de ulei esential in apa de baie poate oferi o experienta relaxanta si revigoranta. Uleiurile esentiale se vor dispersa in apa si vor fi absorbite prin piele si inhalate in timpul baii.</li>
-            <li><b>Difuzare în aer:</b> Una dintre cele mai populare modalitati de utilizare a uleiurilor esentiale este difuzarea lor in aer folosind un difuzor special pentru aromaterapie. Acest proces implica dispersarea particulelor de ulei esential in aer, ceea ce permite inhalarea lor pentru a influenta starea de spirit si sanatatea.</li>
-            <li><b>Comprese:</b> Uleiurile esentiale pot fi adaugate in apa calda si folosite pentru a face comprese in scopul tratarii diverselor afectiuni, cum ar fi durerile musculare sau inflamatiile locale.</li>
-           </ul>
-        </div>
-        <div className="sfaturi-section">
-          <div className="aromas-title">Sfaturi pentru utilizarea uleiurilor esentiale</div>
-          <ul>
-            <div className='sfaturi'>Uleiurile esentiale sunt substante concentrate care provin din natura si aparent sunt sigure, dar atunci cand nu sunt folosite corect pot produce daune pielii. Iata cateva sfaturi pentru a le utiliza in siguranta:</div>
-            <li>Intotdeauna dilueaza uleiurile esentiale inainte de a le aplica pe piele. Acest lucru presupune amestecarea unui ulei esential cu o alta substanta, cum ar fi un ulei purtator sau o lotiune fara parfum.</li>
-           <li>Nu aplica niciodata ulei esential direct pe piele din recipient si evita adaugarea directa a picaturilor in apa de imbaiere.</li>
-           <li>Nu depozita sau utiliza uleiurile esentiale in apropierea flacarilor deschise, deoarece acestea sunt inflamabile. </li>
-           <li>Pastreaza uleiurile esentiale departe de copii si animale de companie, deoarece aceste uleiuri sunt toxice in cantitati mari. Asigura-te ca sticlele sunt bine inchise si depoziteaza-le intr-un loc inaccesibil copiilor, animalelor de companie si oricarei persoane din gospodarie care ar putea sa le confunde cu alte substante.</li>
-            <li>Uleiurile de aromaterapie si alte produse sunt usor de gasit online si in magazine. Cu toate acestea, usurinta lor de acces poate sugera in mod fals ca oricine poate face aromaterapie si sa obtina aceleasi beneficii. Discuta cu un specialist inainte de a incepe o asemenea terapie,  te poate ajuta sa eviti capcanele comune. </li>
+
+          <div className="aroma-title">{data.titlu1}</div>
+          <div className="intro-section">
+            <div className="intro-image">
+              <img src={data.imagineIntro} alt="Aromaterapie" />
+            </div>
+            <div className="intro-text">
+              {(data.ceEste || []).map((text, index) => (
+                <div key={index} className="aroma">{text}</div>
+              ))}
+            </div>
+          </div>
+
+          <div className="benefits-section">
+            <div className="aromas-title">{data.titlu2}</div>
+            <ul>
+              {(data.beneficii || []).map((item, index) => (
+                <li key={index}>
+                  <b>{item.titlu}: </b>{item.descriere}
+                </li>
+              ))}
             </ul>
+          </div>
+
+          <div className="essential-oils-section">
+            <div className="aromas-title">{data.titlu3}</div>
+            <div className="oil-container">
+              {(data.uleiuri || []).map((ulei, index) => (
+                <div className="oil-item" key={index}>
+                  <div className="oil-title">{ulei.nume}</div>
+                  <p>{ulei.descriere}</p>
+                </div>
+              ))}
             </div>
+          </div>
+
+          <div className="modalitati-section">
+            <div className="aromas-title">{data.titlu4}</div>
+            <ul>
+              {(data.modalitati || []).map((mod, index) => (
+                <li key={index}>
+                  <b>{mod.tip}:</b> {mod.descriere}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="sfaturi-section">
+            <div className="aromas-title">{data.titlu5}</div>
+            <ul>
+              {data.sfaturi.map((sfat, index) => (
+                <div key={index} className='sfaturi'>
+                  <div className='sfaturi'>{sfat.titlu}</div>
+                  {sfat.recomandari.map((recomandare, index) => (
+                    <li key={index}>{recomandare}</li>
+                  ))}
+                </div>
+              ))}
+            </ul>
+          </div>
+          <div className="comments-section">
+            <h3>Comentarii:</h3>
+            <CommentForm postId={slug} postType="Mindfulness" handleAddComment={handleAddComment} />
+
+            {comments.length === 0 ? (
+              <p>Nu există comentarii încă.</p>
+            ) : (
+              comments.map((comment) => (
+                <div key={comment.id} className="comment">
+                  <div className="avatar">{comment.name[0]?.toUpperCase()}</div>
+                  <div className="comment-content">
+                    <strong>{comment.name}</strong>
+                    <p>{comment.message}</p>
+                    {comment.reply && <p className="reply">Răspuns: {comment.reply}</p>}
+
+                    {!comment.replied && userId === ADMIN_UID && (
+                      replyingToId === comment.id ? (
+                        <form onSubmit={(e) => handleReplySubmit(e, comment.id)} className="reply-form">
+                          <input
+                            type="text"
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            placeholder="Scrie un răspuns..."
+                          />
+                          <div className="form-actions">
+                            <button type="submit">Trimite răspuns</button>
+                            <button type="button" onClick={() => setReplyingToId(null)} className="cancel-btn">Anulează</button>
+                          </div>
+                        </form>
+                      ) : (
+                        <button onClick={() => setReplyingToId(comment.id)} className="reply-btn">Răspunde</button>
+                      )
+                    )}
+                  </div>
+
+                  <div className="like-btn">
+                    <button
+                      onClick={() => handleLike(comment.id, comment.likes, comment.likedBy)}
+                      className={comment.likedBy?.includes(userId) ? "liked" : "not-liked"}
+                    >
+                      {comment.likedBy?.includes(userId) ? <FaHeart /> : <FaRegHeart />}
+                      {comment.likes}
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Aromaterapie;

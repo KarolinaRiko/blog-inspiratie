@@ -1,7 +1,30 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useParams } from "react-router-dom";
+import { db } from "../../firebase.js";
+import { collection, getDocs } from "firebase/firestore";
 
 const Mindfulness = () => {
+  const { category } = useParams();
+  const [mindfulness, setMindfulness] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+       const mindfulnessCollection = collection(db, "mindfulness");
+            const mindfulnessSnapshot = await getDocs(mindfulnessCollection);
+            const mindfulnessList = mindfulnessSnapshot.docs
+          .map(doc => doc.data())
+          .filter(mindfulness => mindfulness.category === "mindfulness"); 
+
+        setMindfulness(mindfulnessList);
+      } catch (error) {
+        console.error("Eroare la citirea datelor din Firestore:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [category]);
+
   return (
     <div className="container-all">
       <div className="all-wrapper">
@@ -10,66 +33,30 @@ const Mindfulness = () => {
           <hr className="dashed-line" />
         </div>
         <div className="all-container">
-          <div className="all-card">
-            <NavLink to="/mindfulness/yoga" className="all-title">
-              <img
-                src="https://www.medlife.ro/sites/default/files/2024-09/yoga-o-modalitate-prin-care-poti-elimina-stresul_0.jpg"
-                alt="Yoga"
-                className="all-image"
-              />
-            </NavLink>
-            <div className="all-info">
-            <h2>
-            <NavLink to="/mindfulness/yoga" className="all-title">Yoga</NavLink>
-            </h2>
-            <div className="all-subtitle">
-             <p>Concentrează-te pe prezent și învață cum să-ți liniștești mintea prin tehnici de meditație pentru o stare de calm și claritate.</p>
-             </div>
-          </div>
-            <NavLink to="/mindfulness/yoga">
-              <button className="read-more-button">CITESTE...</button>
-            </NavLink>
-          </div>
-          <div className="all-card">
-            <NavLink to="/mindfulness/meditatie" className="all-title">
-              <img
-                src="https://www.catena.ro/assets/uploads/files/images/meditatie.jpg"
-                alt="Meditatie"
-                className="all-image"
-              />
-            </NavLink>
-            <div className="all-info">
-            <h2>
-            <NavLink to="/mindfulness/meditatie" className="all-title">Meditatie</NavLink>
-            </h2>
-            <div className="all-subtitle">
-             <p>Explorează puterea uleiurilor esențiale și cum aromele naturale pot transforma atmosfera și starea ta de bine.</p>
-             </div>
-             </div>
-            <NavLink to="/mindfulness/meditatie">
-              <button className="read-more-button">CITESTE...</button>
-            </NavLink>
-          </div>
-          <div className="all-card">
-            <NavLink to="/mindfulness/aromaterapie" className="all-title">
-              <img
-                src="https://alecoair.ro/assets/blog_images/cele_mai_bune_uleiuri_esentiale_aromaterapie_682212448_(1).jpg"
-                alt="Aromoterapie"
-                className="all-image"
-              />
-            </NavLink>
-            <div className="all-info">
-            <h2>
-            <NavLink to="/mindfulness/aromaterapie" className="all-title">Aromaterapie</NavLink>
-            </h2>
-            <div className="all-subtitle">
-             <p>Flotările sunt un exercițiu clasic care lucrează pieptul, umerii și tricepsul. Poți varia dificultatea prin modificarea poziției mâinilor sau prin adăugarea de greutăți.</p>
-             </div>
-             </div>
-            <NavLink to="/mindfulness/aromaterapie">
-              <button className="read-more-button">CITESTE...</button>
-            </NavLink>
-          </div>
+          {mindfulness.map((mindfulness) => (
+            <div key={mindfulness.slug} className="all-card">
+              <NavLink to={`/mindfulness/${mindfulness.slug}`} className="all-title">
+                <img
+                  src={mindfulness.image}
+                  alt={mindfulness.title}
+                  className="all-image"
+                />
+              </NavLink>
+              <div className="all-info">
+                <h2>
+                  <NavLink to={`/mindfulness/${mindfulness.slug}`} className="all-title">
+                    {mindfulness.title}
+                  </NavLink>
+                </h2>
+                <div className="all-subtitle">
+                  <p>{mindfulness.description}</p>
+                </div>
+              </div>
+              <NavLink to={`/mindfulness/${mindfulness.slug}`}>
+                <button className="read-more-button">CITEȘTE...</button>
+              </NavLink>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -77,7 +64,3 @@ const Mindfulness = () => {
 };
 
 export default Mindfulness;
-
-
-
-

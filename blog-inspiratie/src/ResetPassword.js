@@ -6,10 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const ResetPassword = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const oobCode = params.get("oobCode");  
-
-  console.log("OobCode:", oobCode); 
-
+  const oobCode = params.get("oobCode");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
@@ -17,14 +14,12 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       setIsPasswordMatch(false);
       return;
     }
-
     const auth = getAuth();
     confirmPasswordReset(auth, oobCode, newPassword)
       .then(() => {
@@ -62,7 +57,7 @@ const ResetPassword = () => {
               {showNewPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-      
+
           <div className="input-group">
             <input
               type={showConfirmPassword ? "text" : "password"}

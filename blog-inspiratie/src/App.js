@@ -1,36 +1,59 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import React, { useState, useEffect, useRef, useMemo  } from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink  } from "react-router-dom";
 import { FaSearch, FaUser } from 'react-icons/fa';
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from './auth';
-import LoginPage from './LoginPage';
-import RegisterPage from "./RegisterPage";
-import AccountPage from "./AccountPage";
-import Settings from "./Settings";
-import ForgotPassword from "./ForgotPassword";
-import ResetPassword from "./ResetPassword";
+import { auth, db } from './auth.js';
+import { getDoc, doc } from "firebase/firestore";
 
-import About from './pages/About';
+import LoginPage from './LoginPage.js';
+import RegisterPage from "./RegisterPage.js";
+import AccountPage from "./AccountPage.js";
+
+import Settings from "./Settings.js";
+import ForgotPassword from "./ForgotPassword.js";
+import ResetPassword from "./ResetPassword.js";
+
+import About from './pages/About.js';
 import Blog from './pages/Blog.js';
 
-import Books from "./pages/books/Books";
-import BookCategory from "./pages/books/BookCategory";
-import BookReview from "./pages/books/BookReview";
+import Books from "./pages/books/Books.js";
+import BookCategory from "./pages/books/BookCategory.js";
+import BookReview from "./pages/books/BookReview.js";
 
-import Recipes from "./pages/recipes/Recipes";
-import RecipeCategory from "./pages/recipes/RecipeCategory";
-import RecipeDetail from "./pages/recipes/RecipeDetail";
+import Recipes from "./pages/recipes/Recipes.js";
+import RecipeCategory from "./pages/recipes/RecipeCategory.js";
+import RecipeDetail from "./pages/recipes/RecipeDetail.js";
 
 import Fitness from './pages/fitness/Fitness.js';
-import FitnessCategory from './pages/fitness/FitnessCategory';
-import FitnessDetail from './pages/fitness/FitnessDetail';
+import FitnessCategory from './pages/fitness/FitnessCategory.js';
+import FitnessDetail from './pages/fitness/FitnessDetail.js';
 
 import Mindfulness from './pages/mindfulness/Mindfulness.js';
-import Yoga from './pages/mindfulness/yoga.js';
-import Meditatie from './pages/mindfulness/meditatie.js';
-import Aromaterapie from './pages/mindfulness/aromaterapie.js';
-import Logout from './Logout';
-import SubscriptionForm from './SubscriptionForm';
+import RoutesMind from './pages/mindfulness/Route.js';
+
+import Logout from './Logout.js';
+import SubscriptionForm from './SubscriptionForm.js';
+
+import AdminPanel from './admin/AdminPanel.js';
+import AdminRoute from './admin/AdminRoute.js';
+import AdminHome from './admin/AdminHome.js';
+
+import AdminComments from './admin/AdminComments.js';
+import AdminNewslatter from './admin/AdminNewslatter.js';
+import Statistici from './admin/Statistici.js';
+import AdminCategories from './admin/AdminCaterogies.js';
+
+import ManageBooks from './admin/ManageBooks.js';
+import AdminBooksRev from "./admin/AdminBooksRev.js";
+
+import AdminFitnessDet from "./admin/AdminFitnessDet.js";
+import ManageFitness from './admin/ManageFitness.js';
+
+import ManageMindfulness from './admin/ManageMindfulness.js';
+import AdminMindfulnessDet from './admin/AdminMindfulnessDet.js';
+
+import ManageRecipes from './admin/ManageRecipes.js';
+import AdminRecipesDet from "./admin/AdminRecipesDet.js";
 
 function App() {
   const [dropdown, setDropdown] = useState(null);
@@ -40,8 +63,8 @@ function App() {
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const searchContainerRef = useRef(null);
+  const [userRole, setUserRole] = useState("");
   
-
   let hideDropdownTimeout = null;
 
   const allArticles = useMemo(() => [
@@ -96,7 +119,7 @@ function App() {
     { title: "Push-ups", category: "fitness/exercitii-upper" },
     { title: "Dumbbell Shoulder Press", category: "fitness/exercitii-upper" }
   ], []);
-
+  
   useEffect(() => {
     if (searchQuery) {
       const filtered = allArticles.filter((article) =>
@@ -133,17 +156,43 @@ function App() {
   const handleLogout = () => {
     auth.signOut().then(() => {
       setUser(null);
+      <NavLink to="/login"></NavLink>;
     }).catch((error) => {
       console.error("Error at logout:", error);
     });
   };
+  
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUser(userData);
+            setUserRole(userData.role);
+          } else {
+            console.log("Nu există un utilizator cu acest ID");
+            setUser(null);
+          }
+        } catch (error) {
+          console.log("Eroare la preluarea datelor:", error.message);
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+        setUserRole("");
+        <NavLink to="/login"></NavLink>;
+      }
+    });
+    return () => unsubscribe();
+  });
 
   const handleMouseEnter = (menu) => {
     clearTimeout(hideDropdownTimeout);
     setDropdown(menu);
   };
-
   const handleMouseLeave = () => {
     hideDropdownTimeout = setTimeout(() => {
       setDropdown(null);
@@ -158,8 +207,6 @@ function App() {
       setUserDropdown(false);
     }, 300);
   };
-
-
 
   return (
     <Router>
@@ -183,8 +230,8 @@ function App() {
           />
           {showResults && searchQuery && (
             <ul className="results-list">
-              {filteredArticles.slice(0, 6).length > 0 ? (
-                filteredArticles.slice(0, 6).map((article, index) => (
+              {filteredArticles.slice(0, 5).length > 0 ? (
+                filteredArticles.slice(0, 5).map((article, index) => (
                   <li key={index} className="result-item">
                     <NavLink to={`/${article.category}/${article.title.replace(/\s+/g, "-").toLowerCase()}`} className="result-link">
                       {article.title}
@@ -219,6 +266,9 @@ function App() {
                 ) : (
                   <>
                     <NavLink to="/home">Contul tau</NavLink>
+                    {userRole === "admin" && (
+                      <NavLink to="/admin/home">Admin</NavLink>
+                    )}
                     <Logout className="log-out-dropdown" />
                   </>
                 )}
@@ -233,8 +283,6 @@ function App() {
           <ul>
             <li><NavLink to="/about">About</NavLink></li>
             <li><NavLink to="/">Blog</NavLink></li>
-
-            {/* Dropdown pentru Books */}
             <li
               onMouseEnter={() => handleMouseEnter("books")}
               onMouseLeave={handleMouseLeave}
@@ -242,8 +290,8 @@ function App() {
               <NavLink to="/books">Books</NavLink>
               {dropdown === "books" && (
                 <ul className="dropdown-menu"
-                onMouseEnter={() => setDropdown("books")}
-                onMouseLeave={handleMouseLeave}>
+                  onMouseEnter={() => setDropdown("books")}
+                  onMouseLeave={handleMouseLeave}>
                   <li><NavLink to="/books/dezvoltare-personala" className="sub-menu-item">Dezvoltare Personala</NavLink></li>
                   <li><NavLink to="/books/romantism" className="sub-menu-item">Romantism</NavLink></li>
                   <li><NavLink to="/books/spiritualitate" className="sub-menu-item">Spiritualitate</NavLink></li>
@@ -251,15 +299,14 @@ function App() {
                 </ul>
               )}
             </li>
-            {/* Dropdown pentru Recipes */}
-            <li 
+            <li
               onMouseEnter={() => handleMouseEnter("recipes")}
               onMouseLeave={handleMouseLeave}>
               <NavLink to="/recipes">Recipes</NavLink>
               {dropdown === "recipes" && (
                 <ul className="dropdown-menu"
-                onMouseEnter={() => setDropdown("recipes")}
-                onMouseLeave={handleMouseLeave}>
+                  onMouseEnter={() => setDropdown("recipes")}
+                  onMouseLeave={handleMouseLeave}>
                   <li><NavLink to="/recipes/feluri-principale" className="sub-menu-item">Feluri Principale</NavLink></li>
                   <li><NavLink to="/recipes/supe" className="sub-menu-item">Supe</NavLink></li>
                   <li><NavLink to="/recipes/salate" className="sub-menu-item">Salate</NavLink></li>
@@ -268,31 +315,29 @@ function App() {
                 </ul>
               )}
             </li>
-            {/* Dropdown pentru Fitness */}
-            <li 
+            <li
               onMouseEnter={() => handleMouseEnter("fitness")}
               onMouseLeave={handleMouseLeave}>
               <NavLink to="/fitness">Fitness</NavLink>
               {dropdown === "fitness" && (
                 <ul className="dropdown-menu"
-                onMouseEnter={() => setDropdown("fitness")}
-                onMouseLeave={handleMouseLeave}>
+                  onMouseEnter={() => setDropdown("fitness")}
+                  onMouseLeave={handleMouseLeave}>
                   <li><NavLink to="/fitness/exercitii-upper" className="sub-menu-item">Exercitii Upper</NavLink></li>
                   <li><NavLink to="/fitness/exercitii-lower" className="sub-menu-item">Exercitii Lower</NavLink></li>
-                  <li><NavLink to="/fitness/apdomen" className="sub-menu-item">Apdomen</NavLink></li>
+                  <li><NavLink to="/fitness/abdomen" className="sub-menu-item">Abdomen</NavLink></li>
                   <li><NavLink to="/fitness/secrete-gym" className="sub-menu-item">Secrete Gym</NavLink></li>
                 </ul>
               )}
             </li>
-            {/* Dropdown pentru Mindfulness */}
-            <li 
+            <li
               onMouseEnter={() => handleMouseEnter("mindfulness")}
               onMouseLeave={handleMouseLeave}>
               <NavLink to="/mindfulness">Mindfulness</NavLink>
               {dropdown === "mindfulness" && (
                 <ul className="dropdown-menu"
-                onMouseEnter={() => setDropdown("mindfulness")}
-                onMouseLeave={handleMouseLeave}>
+                  onMouseEnter={() => setDropdown("mindfulness")}
+                  onMouseLeave={handleMouseLeave}>
                   <li><NavLink to="/mindfulness/meditatie" className="sub-menu-item">Meditatie</NavLink></li>
                   <li><NavLink to="/mindfulness/yoga" className="sub-menu-item">Yoga</NavLink></li>
                   <li><NavLink to="/mindfulness/aromaterapie" className="sub-menu-item">Aromaterapie</NavLink></li>
@@ -302,7 +347,6 @@ function App() {
           </ul>
         </nav>
       </header>
-
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -323,13 +367,27 @@ function App() {
         <Route path="/fitness/:category" element={<FitnessCategory />} />
         <Route path="/fitness/:category/:fitnessSlug" element={<FitnessDetail />} />
         <Route path="/fitness/:category/:title" element={<Fitness />} />
-        <Route path="/mindfulness" element={<Mindfulness />} />
-        <Route path="/mindfulness/meditatie" element={<Meditatie />} />
-        <Route path="/mindfulness/yoga" element={<Yoga />} />
-        <Route path="/mindfulness/aromaterapie" element={<Aromaterapie />} />
+        <Route path="/mindfulness" element={<Mindfulness />} />|
+        <Route path="/mindfulness/:slug" element={<RoutesMind />} />
         <Route path="/mindfulness/:category/:title" element={<Mindfulness />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/admin" element={<AdminRoute> <AdminPanel /> </AdminRoute>} />
+        <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>}>
+          <Route path="home" element={<AdminRoute><AdminHome /></AdminRoute>} />
+          <Route path="categories" element={<AdminRoute><AdminCategories /></AdminRoute>} />
+          <Route path="/admin/recipes" element={<AdminRoute><ManageRecipes /></AdminRoute>} />
+          <Route path="/admin/mindfulness" element={<AdminRoute><ManageMindfulness /></AdminRoute>} />
+          <Route path="/admin/mindfulness/detail" element={<AdminRoute><AdminMindfulnessDet /></AdminRoute>} />
+          <Route path="/admin/fitness" element={<AdminRoute><ManageFitness /></AdminRoute>} />
+          <Route path="/admin/books" element={<AdminRoute><ManageBooks /></AdminRoute>} />
+          <Route path="/admin/books/review" element={<AdminRoute><AdminBooksRev /></AdminRoute>} />
+          <Route path="/admin/recipes/detail" element={<AdminRoute><AdminRecipesDet /></AdminRoute>} />
+          <Route path="/admin/fitness/detail" element={<AdminRoute><AdminFitnessDet /></AdminRoute>} />
+          <Route path="/admin/comments" element={<AdminRoute><AdminComments /></AdminRoute>} /> 
+        <Route path="/admin/newsletter" element={<AdminRoute><AdminNewslatter /></AdminRoute>} />
+        <Route path="/admin/statistici" element={<AdminRoute><Statistici /></AdminRoute>} />
+        </Route>
       </Routes>
     </Router>
   );

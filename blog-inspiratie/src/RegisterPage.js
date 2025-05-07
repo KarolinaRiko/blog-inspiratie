@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Iconițe pentru ochi
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from './firebase'; // Asigură-te că importi corect obiectul `auth`
-import { useNavigate } from 'react-router-dom'; // Pentru a naviga după înregistrare
-import { setDoc, doc } from 'firebase/firestore'; // Pentru a salva datele suplimentare în Firestore
+import { auth, db } from './firebase.js';
+import { useNavigate } from 'react-router-dom';
+import { setDoc, doc } from 'firebase/firestore';
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -13,25 +13,24 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      // Creează utilizatorul doar cu email și parolă
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      // După ce utilizatorul a fost creat, salvează și restul informațiilor în Firestore
       const user = userCredential.user;
+      const userRole = email === "riaboconi.k@gmail.com" ? "admin" : "user";
+
       await setDoc(doc(db, "users", user.uid), {
         firstName: firstName,
         lastName: lastName,
-        email: email,
-        birthday: "", // Adaugă câmpuri suplimentare dacă ai nevoie
+        email: email, 
+        birthday: "",
         gender: "",
+        role: userRole,
       });
 
-      navigate('/login'); // După înregistrare, redirecționează la login
+      navigate('/login');
     } catch (error) {
       switch (error.code) {
         case 'auth/email-already-in-use':

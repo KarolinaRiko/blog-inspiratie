@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { db } from "./firebase"; // Asigură-te că Firebase este configurat
+import { db } from "./firebase.js";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom'
-import './App.css';
 
 
 const SubscriptionForm = () => {

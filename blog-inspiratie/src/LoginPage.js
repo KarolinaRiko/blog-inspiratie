@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import { login } from './auth';  // Importă funcția de login din auth.js
+import { login } from './auth.js';
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Iconițe pentru ochi
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const userRole = email === "riaboconi.k@gmail.com" ? "admin" : "user";
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
     try {
-      await login(email, password); 
-      navigate("/home");  
+      await login(email, password);
+      if (userRole === "admin") {
+        navigate('/admin/home');
+      } else {
+        navigate('/home');
+      }
     } catch (error) {
       switch (error.code) {
         case 'auth/invalid-credential':
@@ -37,13 +41,13 @@ const LoginPage = () => {
           setError('A apărut o eroare. Te rugăm să încerci din nou.');
       }
     }
-  }; 
+  };
 
   return (
     <div className="container">
       <div className="register-box">
         <h2 className={error ? "error-heading" : ""}>Log In</h2>
-        {error && <p className="error-message">{error}</p>} 
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
@@ -63,7 +67,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <button 
+              <button
                 type="button"
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
@@ -71,12 +75,9 @@ const LoginPage = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            
-            </div>
-            <button type="submit">Log In</button>
-         
+          </div>
+          <button type="submit">Log In</button>
         </form>
-        
         <div className="extra-links">
           <div className="line"></div>
           <div className="account-options">

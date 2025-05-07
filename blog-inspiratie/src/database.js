@@ -1,4 +1,4 @@
-import { db } from "./firebase"; // Asigură-te că ai configurat corect Firebase
+import { db } from "./firebase.js";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 export const addPost = async (title, content) => {
@@ -12,7 +12,7 @@ export const addPost = async (title, content) => {
     await addDoc(collection(db, "posts"), {
       title,
       content,
-      userId: user.uid, // ID-ul utilizatorului
+      userId: user.uid,
       createdAt: new Date(),
     });
     console.log("Post added successfully!");
@@ -31,7 +31,7 @@ export const addComment = async (postId, text) => {
   try {
     await addDoc(collection(db, "comments"), {
       postId,
-      userId: user.uid, // ID-ul utilizatorului
+      userId: user.uid,
       text,
       createdAt: new Date(),
     });

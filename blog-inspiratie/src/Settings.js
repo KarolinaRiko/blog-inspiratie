@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { auth, db } from "./firebase"; // Asigură-te că ai corect importul Firebase
+import { auth, db } from "./firebase.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { updateEmail, updatePassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +13,8 @@ const Settings = () => {
     email: "",
     password: "",
   });
-
-  const [error, setError] = useState(""); // pentru gestionarea erorilor
-  const [successMessage, setSuccessMessage] = useState(""); // pentru mesajul de succes
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const user = auth.currentUser;
 
@@ -38,8 +37,8 @@ const Settings = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    setError(""); // Resetăm eroarea anterioară
-    setSuccessMessage(""); // Resetăm mesajul de succes
+    setError("");
+    setSuccessMessage("");
 
     if (user) {
       try {
@@ -48,7 +47,7 @@ const Settings = () => {
           firstName: userData.firstName,
           lastName: userData.lastName,
           birthday: userData.birthday,
-          gender: userData.gender, 
+          gender: userData.gender,
         });
 
         if (userData.email !== user.email) {
@@ -59,15 +58,14 @@ const Settings = () => {
           await updatePassword(user, userData.password);
         }
 
-        setSuccessMessage("Date actualizate cu succes!"); // Mesaj de succes
+        setSuccessMessage("Date actualizate cu succes!");
         setTimeout(() => {
           navigate("/home");
-        }, 2000); // Așteptăm 2 secunde pentru a vizualiza mesajul de succes
+        }, 2000);
 
       } catch (error) {
         console.error("Eroare la actualizare:", error);
 
-        // Gestionarea erorilor personalizate pe baza codului
         switch (error.code) {
           case 'auth/email-already-in-use':
             setError('Acest email este deja utilizat, încearcă altul.');
@@ -85,11 +83,13 @@ const Settings = () => {
     }
   };
 
-  return (
+  return ( 
+    <div className="container-all">
+      <div className="all-wrapper">
     <div className="settings-container">
       <h2>Settings</h2>
-      {error && <p className="error-message">{error}</p>} 
-      {successMessage && <p className="success-message">{successMessage}</p>} 
+      {error && <p className="error-message">{error}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <form className="settings-form" onSubmit={handleSave}>
         <input
           type="text"
@@ -142,6 +142,8 @@ const Settings = () => {
         />
         <button type="submit">Salvează</button>
       </form>
+    </div>
+    </div>
     </div>
   );
 };
