@@ -27,11 +27,7 @@ const ForgotPassword = () => {
         );
         setError("");
       })
-      .catch((err) => {
-        console.log("Eroare:", err);
-        console.log("Cod eroare:", err.code);
-        console.log("Mesaj eroare:", err.message);
-
+      .catch(() => {
         setMessage("");
         setError("A apărut o eroare. Te rugăm să încerci din nou.");
       });

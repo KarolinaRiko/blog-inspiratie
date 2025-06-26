@@ -1,14 +1,8 @@
 import React from 'react';
-import { Outlet, useNavigate, NavLink } from 'react-router-dom';
-import { auth } from '../firebase.js';
+import { Outlet, NavLink } from 'react-router-dom';
+import Logout from '../Logout.js';
 
 const AdminPanel = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await auth.signOut();
-    navigate('/login');
-  };
 
   return (
     <div className="admin-container">
@@ -19,7 +13,7 @@ const AdminPanel = () => {
           <li><NavLink to="/admin/comments">Comentarii</NavLink></li>
           <li><NavLink to="/admin/newsletter">Newsletter</NavLink></li>
           <li><NavLink to="/admin/statistici">Statistici</NavLink></li>
-          <li className="logout-admin" onClick={handleLogout} >Logout</li>
+          <Logout className="logout-admin" />
         </ul>
       </aside>
 

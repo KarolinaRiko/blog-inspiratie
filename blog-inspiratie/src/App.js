@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo  } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink  } from "react-router-dom";
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import { FaSearch, FaUser } from 'react-icons/fa';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from './auth.js';
@@ -39,9 +39,9 @@ import AdminRoute from './admin/AdminRoute.js';
 import AdminHome from './admin/AdminHome.js';
 
 import AdminComments from './admin/AdminComments.js';
-import AdminNewslatter from './admin/AdminNewslatter.js';
+import AdminNewsletter from './admin/AdminNewsletter.js';
 import Statistici from './admin/Statistici.js';
-import AdminCategories from './admin/AdminCaterogies.js';
+import AdminCategories from './admin/AdminCategories.js';
 
 import ManageBooks from './admin/ManageBooks.js';
 import AdminBooksRev from "./admin/AdminBooksRev.js";
@@ -64,7 +64,7 @@ function App() {
   const [showResults, setShowResults] = useState(false);
   const searchContainerRef = useRef(null);
   const [userRole, setUserRole] = useState("");
-  
+
   let hideDropdownTimeout = null;
 
   const allArticles = useMemo(() => [
@@ -119,7 +119,7 @@ function App() {
     { title: "Push-ups", category: "fitness/exercitii-upper" },
     { title: "Dumbbell Shoulder Press", category: "fitness/exercitii-upper" }
   ], []);
-  
+
   useEffect(() => {
     if (searchQuery) {
       const filtered = allArticles.filter((article) =>
@@ -151,17 +151,16 @@ function App() {
       setUser(currentUser);
     });
     return () => unsubscribe();
-  }, []);
-
-  const handleLogout = () => {
-    auth.signOut().then(() => {
+  }, []);  const handleLogout = () => {
+    auth.signOut()
+    .then(() => {
       setUser(null);
-      <NavLink to="/login"></NavLink>;
-    }).catch((error) => {
+      window.location.href = "/login";
+    })
+    .catch((error) => {
       console.error("Error at logout:", error);
     });
   };
-  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -196,7 +195,7 @@ function App() {
   const handleMouseLeave = () => {
     hideDropdownTimeout = setTimeout(() => {
       setDropdown(null);
-    }, 300);
+    }, 400);
   };
   const handleMouseEnterUser = () => {
     clearTimeout(hideDropdownTimeout);
@@ -205,7 +204,7 @@ function App() {
   const handleMouseLeaveUser = () => {
     hideDropdownTimeout = setTimeout(() => {
       setUserDropdown(false);
-    }, 300);
+    }, 3000);
   };
 
   return (
@@ -384,9 +383,9 @@ function App() {
           <Route path="/admin/books/review" element={<AdminRoute><AdminBooksRev /></AdminRoute>} />
           <Route path="/admin/recipes/detail" element={<AdminRoute><AdminRecipesDet /></AdminRoute>} />
           <Route path="/admin/fitness/detail" element={<AdminRoute><AdminFitnessDet /></AdminRoute>} />
-          <Route path="/admin/comments" element={<AdminRoute><AdminComments /></AdminRoute>} /> 
-        <Route path="/admin/newsletter" element={<AdminRoute><AdminNewslatter /></AdminRoute>} />
-        <Route path="/admin/statistici" element={<AdminRoute><Statistici /></AdminRoute>} />
+          <Route path="/admin/comments" element={<AdminRoute><AdminComments /></AdminRoute>} />
+          <Route path="/admin/newsletter" element={<AdminRoute><AdminNewsletter /></AdminRoute>} />
+          <Route path="/admin/statistici" element={<AdminRoute><Statistici /></AdminRoute>} />
         </Route>
       </Routes>
     </Router>

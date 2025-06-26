@@ -61,7 +61,7 @@ function AdminComments() {
           )}
 
           <button onClick={() => handleEdit(comment)} className="edit-button">
-            Modifică răspuns
+          Răspunde
           </button>
           <button  className="delete-button" onClick={() => confirmDeleteComment(comment.id)}>Șterge</button>
 
